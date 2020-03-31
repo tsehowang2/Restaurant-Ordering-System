@@ -111,7 +111,17 @@
     <Content Include="app\templates\app\layout.html" />
     <Content Include="app\templates\app\login.html" />
     <Content Include="app\templates\app\loginpartial.html" />
-    <Content Include="restaurant\templates\restaurant\index.html" />
+    <Content Include="restaurant\templates\restaurant\block_cart.html" />
+    <Content Include="restaurant\templates\restaurant\block_home.html" />
+    <Content Include="restaurant\templates\restaurant\block_items.html" />
+    <Content Include="restaurant\templates\restaurant\block_menu.html" />
+    <Content Include="restaurant\templates\restaurant\block_orders.html" />
+    <Content Include="restaurant\templates\restaurant\block_services.html" />
+    <Content Include="restaurant\templates\restaurant\cart.html" />
+    <Content Include="restaurant\templates\restaurant\home.html" />
+    <Content Include="restaurant\templates\restaurant\items.html" />
+    <Content Include="restaurant\templates\restaurant\menu.html" />
+    <Content Include="restaurant\templates\restaurant\orders.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">

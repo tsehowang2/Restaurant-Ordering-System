@@ -9,6 +9,8 @@ import django.contrib.auth.views
 import app.forms
 import app.views
 
+import restaurant.views
+
 # Uncomment the next lines to enable the admin:
 from django.conf.urls import include
 from django.contrib import admin
@@ -16,7 +18,13 @@ from django.contrib import admin
 
 urlpatterns = [
     # Examples:
-    url(r'^$', app.views.home, name='home'),
+    url(r'^$', restaurant.views.block_home, name='home'),
+	url(r'^menu$', restaurant.views.block_menu, name='menu'),
+	url(r'^orders$', restaurant.views.block_orders, name='orders'),
+	url(r'^services$', restaurant.views.block_services, name='services'),
+	url(r'^cart$', restaurant.views.block_cart, name='cart'),
+	url(r'^items$', restaurant.views.block_items, name='items'),
+	#url(r'^services$', restaurant.views.services, name='services'),
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about$', app.views.about, name='about'),
     url(r'^login/$',

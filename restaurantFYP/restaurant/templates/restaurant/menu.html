@@ -1,0 +1,86 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" http-equiv="ScreenOrientation" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no autoRotate:disabled">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	  		<title>Hello, world!</title>
+		<script type="text/javascript" src="jsfile/general_function.js"></script>
+		<script type="text/javascript" src="jsfile/menupages/menupage.js"></script>
+		<script type="text/javascript" src="jsfile/header_function.js"></script>
+		<script type="text/javascript" src="jsfile/footer_function.js"></script>
+
+    <title>Hello, world!</title>
+	  <style>
+		  .gap{margin-top: 30px;}
+		  .bottom{margin-bottom: 320px;}
+		  .image{height: 220px; position: relative}
+		  .image_slide{background-size: cover; background-position: center; height: 250px}
+		  .long_bar{background-size: cover; background-position: center; height: 150px}
+		  .text{position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%); padding: 10px}
+		  .transparent_bg{background: rgba(0, 0, 0, 0.5)}
+		  .top_right{position: absolute;top: 8px;right: 20px}
+	  </style>
+	  <script>
+	  </script>
+  	</head>
+	<body class="bg-dark">
+{% for a in Category %}
+<a href="{% url 'items' %}">
+<section style="margin-top: 30px; width: 100%">
+  <div id="{{a}}" class="image overflow-hidden d-flex align-items-center shadow long_bar" style="height: 150px; background-image: url()">
+    <h4 class="transparent_bg text-light" style="padding: 10px; margin: auto">{{ a }}</h4>
+    <div class="top_right row">
+      <h6 id="{{ a }}_count" class="badge badge-pill badge-warning">0</h6>
+    </div>
+  </div>
+</section>
+</a>
+{% endfor %}
+		
+<section style="margin-top: 30px">
+  <div style="width: 100%">
+	<a href="{% url 'items' %}">
+    <div id="{{a}}" class="image overflow-hidden d-flex align-items-center shadow long_bar" style="float: left; width: 48%; height: 150px; background-image: url(images/Snacks.jpg)">
+      <h4 class="text transparent_bg text-light">{{ Snacks }}</h4>
+      <div class="top_right row">
+        <h6 id="{{a}}_count" class="badge badge-pill badge-warning">0</h6>
+      </div>
+    </div>
+	</a>
+	<a href="{% url 'items' %}">
+    <div id="{{a}}" class="image overflow-hidden d-flex align-items-center shadow long_bar" style="float: right; width: 48%; height: 150px; background-image: url(images/Drinks.jpg)">
+      <h4 class="text transparent_bg text-light">{{ Drinks }}</h4>
+      <div class="top_right row">
+        <h6 id="Drinks_Discount" class="col badge badge-pill badge-success">0</h6>
+        <h6 id="{{a}}_count" class="col badge badge-pill badge-warning">0</h6>
+      </div>
+    </div>
+	</a>
+  </div>
+</section>
+
+<section class="bottom"></section>
+		
+	{% block footer %}
+		
+	{% endblock %}
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		
+		<script>
+		var total = 0.0;
+		var tableId = "T01";
+		
+		window.onload = function(){
+		}
+		</script>
+  </body>
+</html>
