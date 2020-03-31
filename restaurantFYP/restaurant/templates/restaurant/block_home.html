@@ -13,7 +13,7 @@
 {% block content %}
 <section id="maincontainer" style="margin-top: 60px; margin-bottom: 60px">
 <a href="{% url 'menu' %}">
-  <div id="Menu" style="margin-left: 6%; width: 40%; float: left">
+  <div id="Menu" style="margin-left: 6%; width: 40%; float: left">	
     <div class="btn btn-info rounded" style="margin: auto; width: 100%">
       <div style="margin: auto; width: 80%; padding-top:20px">
         <svg viewBox="0 0 380.721 380.721" class="logo">
@@ -44,7 +44,7 @@
       </div>
     </div>
   </div>
-</a>
+</div>
 <a href="{% url 'orders' %}">
   <div id="Orders" style="margin-right: 6%; width: 40%; float: right">
     <div class="btn btn-info rounded" style="margin: auto; width: 100%">
@@ -156,8 +156,8 @@
     </div>
     <div class="col-4 offset-4 rounded-pill" style="background: rgba(0, 0, 0, 0.5)">
       <p class="w-100 text-right text-light"><span>Table: </span><span id="table_id">
-		{% if Table.table_id %}
-        {{Table.table_id}}
+		{% if Table_ID %}
+        {{Table_ID}}
         {% else %}
         TABLE_ID
         {% endif %}

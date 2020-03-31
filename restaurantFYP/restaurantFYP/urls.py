@@ -4,6 +4,8 @@ Definition of urls for restaurantFYP.
 
 from datetime import datetime
 from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls.static import static
 import django.contrib.auth.views
 
 import app.forms
@@ -18,7 +20,8 @@ from django.contrib import admin
 
 urlpatterns = [
     # Examples:
-    url(r'^$', restaurant.views.block_home, name='home'),
+    url(r'^$', restaurant.views.login, name='login'),
+	url(r'^home$', restaurant.views.block_home, name='home'),
 	url(r'^menu$', restaurant.views.block_menu, name='menu'),
 	url(r'^orders$', restaurant.views.block_orders, name='orders'),
 	url(r'^services$', restaurant.views.block_services, name='services'),
@@ -51,4 +54,4 @@ urlpatterns = [
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

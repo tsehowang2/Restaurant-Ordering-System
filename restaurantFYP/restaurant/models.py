@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 
 # Create your models here.
 
@@ -20,7 +21,7 @@ class Food(models.Model):
     available = models.BooleanField(default=True)
 
     def __str__(self):
-        return str(self.food_id)
+        return '{} {} {} {}'.format(self.food_id, self.food_name, self.price, self.available)
 
 class Table(models.Model):
     table_id = models.CharField(max_length=10, primary_key=True)
@@ -28,3 +29,9 @@ class Table(models.Model):
 
     def __str__(self):
         return str(self.table_id)
+
+class Food_Admin(admin.ModelAdmin):
+	list_display = ('food_id', 'food_name', 'price', 'available')
+
+class Category_Admin(admin.ModelAdmin):
+	list_display = ('category_id', 'category_name')

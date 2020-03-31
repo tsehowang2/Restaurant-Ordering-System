@@ -7,14 +7,17 @@ from order.models import Order
 from django.views.generic import TemplateView
 
 # Create your views here.
+def login(request):
+	"""Renders the home page."""
+	return render(
+        request,
+        'restaurant/login.html',
+    )
 def block_home(request):
 	"""Renders the home page."""
 	return render(
         request,
         'restaurant/block_home.html',
-        {
-            
-        }
     )
 def home(request):
     """Renders the home page."""
@@ -113,18 +116,21 @@ def cart(request):
 def block_items(request):
 	"""Renders the home page."""
 	#assert isinstance(request, HttpRequest)
+	query = request.GET.get('name')
+	print(query)
+	foods = Food.objects.filter(category_id = query)
+	print(foods)
+	title = Category.objects.filter(category_id = query)
+	args = {'Food': foods, 'Title': title}
 	return render(
 		request,
 		'restaurant/block_items.html',
+		args,
     )
 def items(request):
-    """Renders the home page."""
-    #assert isinstance(request, HttpRequest)
-
-    return render(
+	"""Renders the home page."""
+	#assert isinstance(request, HttpRequest)
+	return render(
         request,
         'restaurant/items.html',
-        {
-            
-        }
     )
