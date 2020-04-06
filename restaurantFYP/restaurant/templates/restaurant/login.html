@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -26,19 +26,16 @@
 		<div class="col-8 card" id="formContent">
 		<!-- Login Form -->
 			<div class="card-body row">
-			  <form id="sub" method="get" action="{% url 'home' %}">
-			  <input type="text" id="table_id" class="col-12" name="table_id" placeholder="Table number">
-			  <div class="col-12" style="height: 100px"><p></p></div>
-			  <p class="btn col-12 btn-info" onClick="sub()">Log In</p>
+            <form action="login" method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+			    <input type="text" id="username" class="col-12" name="username" placeholder="Table number">
+			    <div class="col-12" style="height: 100px"><p></p></div>
+                <input type="hidden" name="password" value="1"/>
+			    <input type="submit" class="btn col-12 btn-info">
 			  </form>
  		</div>
 	</div>
-	
-	
-	<script>
-	function sub(){
-	document.getElementById("sub").submit();}
-	</script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

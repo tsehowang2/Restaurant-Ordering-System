@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from restaurant.models import Category, Food, Table, Food_Admin, Category_Admin
+from restaurant.models import Category, Food, Table, Category_Admin, Food_Admin
 
 
 admin.site.register(Category, Category_Admin)

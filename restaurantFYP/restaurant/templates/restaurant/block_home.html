@@ -138,8 +138,18 @@
 				c5.896,0,10.667,4.771,10.667,10.667C384,187.229,379.229,192,373.333,192z M362.667,106.667
 				c-11.771,0-21.333-9.573-21.333-21.333V36.417l70.25,70.25H362.667z"></path>
         </svg>
-      </div>
-      <div class="m-2">
+        </div>
+        {% if user.is_authenticated %}
+        Hi {{ user.username }}!
+        <form method="POST" action="logout">
+            {% csrf_token %}
+            <input type="submit" value="Logout">
+        </form>
+        {% else %}
+            <p>You are not logged in</p>
+            <a href="{% url 'login' %}">login</a>
+        {% endif %}
+        <div class="m-2">
         <h5 class="card-title text-center text-white white" style="height: 40px">Bill</h5>
       </div>
     </div>
@@ -156,11 +166,7 @@
     </div>
     <div class="col-4 offset-4 rounded-pill" style="background: rgba(0, 0, 0, 0.5)">
       <p class="w-100 text-right text-light"><span>Table: </span><span id="table_id">
-		{% if Table_ID %}
-        {{Table_ID}}
-        {% else %}
-        TABLE_ID
-        {% endif %}
+        {{user.username}}
 	</span></p>
     </div>
   </div>

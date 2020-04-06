@@ -1,24 +1,53 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from django.template import RequestContext
 from restaurant.models import Category, Food, Table
 from order.models import Order
 from django.views.generic import TemplateView
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User, auth
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect
 
 # Create your views here.
-def login(request):
-	"""Renders the home page."""
-	return render(
+def index(request):
+
+    return render(
         request,
-        'restaurant/login.html',
+        'restaurant/index.html',
     )
+
+
+def login(request):
+    if request.method == 'POST': 
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+    
+        user = auth.authenticate(username=username, password=password)
+
+        if user is not None:
+            auth.login(request, user)
+            return redirect("home")
+        else:
+            return redirect('login')
+    else:
+        return render(request, 'restaurant/login.html',)
+
+@login_required(redirect_field_name='login')
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect('login')
+
+@login_required(redirect_field_name='login')
 def block_home(request):
 	"""Renders the home page."""
 	return render(
         request,
         'restaurant/block_home.html',
     )
+
+@login_required(redirect_field_name='login')
 def home(request):
     """Renders the home page."""
     #assert isinstance(request, HttpRequest)
@@ -30,6 +59,8 @@ def home(request):
 			'header':'Welcome',
         }
     )
+
+@login_required(redirect_field_name='login')
 def block_menu(request):
 	"""Renders the home page."""
 	#assert isinstance(request, HttpRequest)
@@ -43,6 +74,8 @@ def block_menu(request):
         'restaurant/block_menu.html',
 		args,
     )
+
+@login_required(redirect_field_name='login')
 def menu(request):
     """Renders the home page."""
     #assert isinstance(request, HttpRequest)
@@ -53,6 +86,8 @@ def menu(request):
             'title':'Menu',
         }
     )
+
+@login_required(redirect_field_name='login')
 def block_orders(request):
     """Renders the home page."""
     #assert isinstance(request, HttpRequest)
@@ -63,6 +98,8 @@ def block_orders(request):
             
         }
     )
+
+@login_required(redirect_field_name='login')
 def orders(request):
     """Renders the home page."""
     #assert isinstance(request, HttpRequest)
@@ -73,6 +110,8 @@ def orders(request):
             'title':'Orders',
         }
     )
+
+@login_required(redirect_field_name='login')
 def block_services(request):
     """Renders the home page."""
     #assert isinstance(request, HttpRequest)
@@ -83,6 +122,8 @@ def block_services(request):
             
         }
     )
+
+@login_required(redirect_field_name='login')
 def services(request):
     """Renders the home page."""
     #assert isinstance(request, HttpRequest)
@@ -93,6 +134,8 @@ def services(request):
             'title':'Services',
         }
     )
+
+@login_required(redirect_field_name='login')
 def block_cart(request):
     """Renders the home page."""
     #assert isinstance(request, HttpRequest)
@@ -103,6 +146,8 @@ def block_cart(request):
             'value':'Default',
         }
     )
+
+@login_required(redirect_field_name='login')
 def cart(request):
     """Renders the home page."""
     #assert isinstance(request, HttpRequest)
@@ -113,6 +158,8 @@ def cart(request):
             
         }
     )
+
+@login_required(redirect_field_name='login')
 def block_items(request):
 	"""Renders the home page."""
 	#assert isinstance(request, HttpRequest)
@@ -127,6 +174,8 @@ def block_items(request):
 		'restaurant/block_items.html',
 		args,
     )
+
+@login_required(redirect_field_name='login')
 def items(request):
 	"""Renders the home page."""
 	#assert isinstance(request, HttpRequest)

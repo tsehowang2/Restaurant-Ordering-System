@@ -81,6 +81,7 @@
     <Content Include="db.sqlite3">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="db2.sqlite3" />
     <Content Include="order\templates\order\index.html" />
     <Content Include="requirements.txt" />
     <Content Include="app\static\app\content\bootstrap.css" />
@@ -119,7 +120,9 @@
     <Content Include="restaurant\templates\restaurant\block_services.html" />
     <Content Include="restaurant\templates\restaurant\cart.html" />
     <Content Include="restaurant\templates\restaurant\home.html" />
+    <Content Include="restaurant\templates\restaurant\index.html" />
     <Content Include="restaurant\templates\restaurant\items.html" />
+    <Content Include="restaurant\templates\restaurant\login.html" />
     <Content Include="restaurant\templates\restaurant\menu.html" />
     <Content Include="restaurant\templates\restaurant\orders.html" />
   </ItemGroup>

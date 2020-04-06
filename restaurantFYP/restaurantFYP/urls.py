@@ -19,8 +19,9 @@ from django.contrib import admin
 # admin.autodiscover()
 
 urlpatterns = [
-    # Examples:
-    url(r'^$', restaurant.views.login, name='login'),
+    url(r'^$', restaurant.views.index, name='index'),
+    url(r'^login$', restaurant.views.login, name='login'),
+    url(r'^logout$', restaurant.views.logout, name='logout'),
 	url(r'^home$', restaurant.views.block_home, name='home'),
 	url(r'^menu$', restaurant.views.block_menu, name='menu'),
 	url(r'^orders$', restaurant.views.block_orders, name='orders'),
@@ -30,24 +31,6 @@ urlpatterns = [
 	#url(r'^services$', restaurant.views.services, name='services'),
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about$', app.views.about, name='about'),
-    url(r'^login/$',
-        django.contrib.auth.views.login,
-        {
-            'template_name': 'app/login.html',
-            'authentication_form': app.forms.BootstrapAuthenticationForm,
-            'extra_context':
-            {
-                'title': 'Log in',
-                'year': datetime.now().year,
-            }
-        },
-        name='login'),
-    url(r'^logout$',
-        django.contrib.auth.views.logout,
-        {
-            'next_page': '/',
-        },
-        name='logout'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
