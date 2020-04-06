@@ -1,17 +1,14 @@
 from django.db import models
 from django.contrib import admin
+from django.contrib.auth.models import User
 
 # Create your models here.
-from restaurant.models import Food, Table
-
-
-
+from restaurant.models import Food
 
 class Order (models.Model):
     order_id = models.AutoField(max_length=10, primary_key=True)
-    
     ordered_food = models.ManyToManyField(Food, through='Order_State')
-    table_id = models.ForeignKey(Table)
+    table_id = models.ForeignKey(User, on_delete=models.CASCADE)
     billed = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True, blank=True)
 

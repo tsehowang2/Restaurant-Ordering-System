@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from django.template import RequestContext
-from restaurant.models import Category, Food, Table
+from restaurant.models import Category, Food
 from order.models import Order
 from django.views.generic import TemplateView
 from django.contrib import messages

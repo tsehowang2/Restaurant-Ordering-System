@@ -23,13 +23,6 @@ class Food(models.Model):
     def __str__(self):
         return '{} {} {} {}'.format(self.food_id, self.food_name, self.price, self.available)
 
-class Table(models.Model):
-    table_id = models.CharField(max_length=10, primary_key=True)
-    avab_to_cust = models.BooleanField(default=True)
-
-    def __str__(self):
-        return str(self.table_id)
-
 class Food_Admin(admin.ModelAdmin):
 	list_display = ('food_id', 'food_name', 'price', 'available')
 
