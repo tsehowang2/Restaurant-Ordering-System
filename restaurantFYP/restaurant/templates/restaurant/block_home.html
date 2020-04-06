@@ -12,6 +12,7 @@
 	
 {% block content %}
 <section id="maincontainer" style="margin-top: 60px; margin-bottom: 60px">
+  {% if user.is_authenticated %}
 <a href="{% url 'menu' %}">
   <div id="Menu" style="margin-left: 6%; width: 40%; float: left">	
     <div class="btn btn-info rounded" style="margin: auto; width: 100%">
@@ -115,8 +116,9 @@
     </div>
   </div>
 </a>
-<a href="#">
-  <div id="Bill" style="margin-right: 6%; margin-top: 20px; width: 40%; float: right">
+<form id="bill_form" method="POST" action="logout">      
+{% csrf_token %}
+  <div value="Logout" id="Bill" style="margin-right: 6%; margin-top: 20px; width: 40%; float: right" onclick="logout();">
     <div style="margin: auto; width: 100%" class="btn btn-info rounded">
       <div style="margin: auto; width: 80%; padding-top:20px">
         <svg viewBox="0 0 512 512" class="logo">
@@ -139,22 +141,16 @@
 				c-11.771,0-21.333-9.573-21.333-21.333V36.417l70.25,70.25H362.667z"></path>
         </svg>
         </div>
-        {% if user.is_authenticated %}
-        Hi {{ user.username }}!
-        <form method="POST" action="logout">
-            {% csrf_token %}
-            <input type="submit" value="Logout">
-        </form>
-        {% else %}
-            <p>You are not logged in</p>
-            <a href="{% url 'login' %}">login</a>
-        {% endif %}
         <div class="m-2">
         <h5 class="card-title text-center text-white white" style="height: 40px">Bill</h5>
       </div>
     </div>
   </div>
-</a>
+</form>
+ {% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">login</a>
+{% endif %}
 </section>
 {% endblock %}
 
