@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from django.template import RequestContext
 from restaurant.models import Category, Food
-from order.models import Order, Order_State, Temp
+from order.models import Order, Order_State, Cart, Cart_State
 from django.views.generic import TemplateView
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -190,9 +190,12 @@ def items(request):
 @login_required(redirect_field_name='login')
 def add_to_cart(request):
    food_id = request.POST.get('food_id')
+   quantity = int(request.POST.get('quantity'))
+   food = Food.objects.get(food_id=food_id)
    try:
-        cart = Temp.objects.get(table_id=auth.get_user(request))
-   except Temp.DoesNotExist:
-        cart = Temp.objects.create(table_id=auth.get_user(request))
-   cart.foods_in_cart.add(food_id)
+        cart = Cart.objects.get(table_id=auth.get_user(request))
+   except Cart.DoesNotExist:
+        cart = Cart.objects.create(table_id=auth.get_user(request))
+   for x in range(quantity):
+        cart_state = Cart_State.objects.create(cart=cart, food=food)
    return HttpResponseRedirect('home/menu')
