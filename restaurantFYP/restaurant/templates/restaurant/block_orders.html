@@ -14,31 +14,58 @@
 {% endblock %}
 
 {% block content %}
-<section id="main_container" class="row" style="margin-top: 50px; margin-bottom: 60px">
-  <div class="float-left" style="margin-top: 10px; width: 44%; float-left:4%">
-    <div class="bg-light rounded"><img class="card-img-top" src="#" style="height: 100px; object-fit: cover">
+<section id="main_container" style="margin-top: 60px; margin-bottom: 60px; padding-left: 10px; padding-right: 10px">
+{% for a in foodlist %}
+    {% cycle '<div style="display: block; clear: both;">' '' %}
+  <div class="{% cycle 'float-left' 'float-right' %}" style="margin-top: 10px; width: 46%; {% cycle 'float-left:4%' 'float-right:4%' %}">
+    <div class="bg-light rounded"><img class="card-img-top" src="{{a.food.image.url}}" style="height: 100px; object-fit: cover">
       <div class="m-2">
-        <h6 class="card-title">CARD_TITLE</h6>
-        <p class="card-text">Price: PRICE</p>
+        <h6 class="card-title">{{a.food.food_name}}</h6>
+        <p class="card-text">Price: {{a.food.price}}<br />Quantity: {{a.quantity}}</p>
         <div class="row">
-          <p class="col-6">Pending</p>
-          <p class="col-5 btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Return</p>
+          <p class="col-6">{% if a.state == 'uncooked' %}pending{% else %}{{a.state}}{% endif %}</p>
+          <p class="col-5 btn {%if a.state == 'uncooked' %}btn-danger{% else %}btn-secondary disabled{% endif%}" data-toggle="modal" data-target="#{{a.food.food_id}}_modal">Return</p>
         </div>
       </div>
     </div>
   </div>
-  <div class="float-right" style="margin-top: 10px; width: 44%; float-right:4%">
-    <div class="bg-light rounded"><img class="card-img-top" src="#" style="height: 100px; object-fit: cover">
-      <div class="m-2">
-        <h6 class="card-title">CARD_TITLE</h6>
-        <p class="card-text">Discount: PRICE</p>
-        <div class="row">
-          <p class="col-6">Pending</p>
-          <p class="col-5 btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Return</p>
-        </div>
+    {% cycle '' '</div>' %}
+{% endfor %}
+{% for a in foodlist %}
+{% if a.state == 'uncooked' %}
+<section>
+<!-- Modal -->
+<div class="modal fade" id="{{a.food.food_id}}_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="selected_food_name">{{a.food.food_name}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		  <img id="selected_food_image" src="{{a.food.image.url}}" style="height: 150px; object-fit: cover; display: block; margin-left: auto; margin-right: auto">
+		  <p>
+			  <span id="selected_food_discounted">Total: $</span>
+			  <span id="selected_food_price">{{a.food.price}}</span>
+		  </p>
+          <p>
+			  <span id="selected_food_discounted">Quantity: </span>
+			  <span id="selected_food_price">{{a.quantity}}</span>
+		  </p>
+		  <p>you are warned that discounted item may become full price</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger">Return item</button>
       </div>
     </div>
   </div>
+</div>
+</section>
+{% endif %}
+{% endfor %}
 </section>
 {% endblock %}
 

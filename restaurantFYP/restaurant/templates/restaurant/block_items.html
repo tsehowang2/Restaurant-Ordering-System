@@ -22,27 +22,65 @@
 {% block content %}
 <section id="maincontainer" style="margin-top: 60px; margin-bottom: 60px">
 {% for a in Food %}
-  <div class="m-4 bg-light shadow" id="Pepperoni Pizza">
+<form action="{% url 'add_to_cart'%}" method="post"> 
+{% csrf_token %}
+<!-- Modal -->
+<div class="modal fade" id="{{a.food_id}}_modal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="selected_food_name">{{a.food_name}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <img src="{{a.image.url}}" style="height: 150px; object-fit: cover; display: block; margin-left: auto; margin-right: auto">
+          <p>
+              <span>Total: $</span>
+              <span id="{{a.food_id}}_total">{{a.price}}</span>
+          </p>
+          <p>
+              <span>{{a.description}}</span>
+          </p>
+          <div class="row w-75" style="margin: auto">
+            <p id="{{a.food_id}}_modalSub" class="btn btn-dark col" onclick="changeModalQuantity('{{a.food_id}}', -1, '{{a.price}}')">-</p>
+            <input type="text" readonly="readonly" style="border: 0; text-align: center" id="{{a.food_id}}_modalCount" class="text-dark text-center col" name="quantity" value="1">
+            <p id="{{a.food_id}}_modalAdd" class="btn btn-dark col" onclick="changeModalQuantity('{{a.food_id}}', 1, '{{a.price}}')">+</p>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="changeModalQuantity('{{a.food_id}}', 0, '{{a.price}}')">Cancel</button>
+        <input type="hidden" name="food_id" value="{{a.food_id}}">
+        <button type="submit" class="btn btn-primary">Into cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+  <div class="m-4 bg-light shadow" id="{{a.food_name}} main" data-toggle="modal" data-target="#{{a.food_id}}_modal">
     <div class="row" style="background-image: url({{a.image.url}}); background-size: auto 100%; height: 130px">
       <div class="col-1 offset-4 opa"></div>
       <div class="col bg-light">
         <p class="text-dark custom_text" style="line-height: 1.5em">{{a.food_name}}</p>
-        <p class="text-dark" style="line-height: 0em">Price: ${{a.price}}</p>
+        <p class="text-dark" style="line-height: 0em">Price: $<span></span>{{a.price}}</p>
         <p id="{{a.food_name}}_desc" style="display: none">{{a.description}}</p>
         <div class="row gap" style="padding-right: 15px">
-          <div class="col-6 align-self-center">
+          <div class="col-6 align-self-center d-none">
             <p class="align-self-center"><span class="float-left">Take: </span><span class="float-right">1</span></p>
           </div>
-          <div class="col-3">
-            <p class="btn btn-dark text-center rounded" style="font-size: 120%; text-align: center" data-toggle="modal" data-target="#exampleModalCenter">🖊</p>
+          <div class="col-3 d-none">
+            <p class="btn btn-dark text-center rounded" style="font-size: 120%; text-align: center" data-toggle="modal" data-target="#exampleModalCenter">ðŸ–Š</p>
           </div>
-          <div class="col-3">
-            <p class="btn btn-danger text-center rounded" style="font-size: 120%; text-align: center">×</p>
+          <div class="col-3 d-none">
+            <p class="btn btn-danger text-center rounded" style="font-size: 120%; text-align: center">Ã—</p>
           </div>
         </div>
       </div>
     </div>
   </div>
+
   {% endfor %} </section>
 {% endblock %}
 	
@@ -61,7 +99,7 @@
     </div>
     <div class="row justify-content-between m-2">
       <a class="col-5 btn btn-warning rounded-pill w-100 h6 shadow-sm" href="{% url 'menu' %}">Back</a>
-      <p class="col-5 offset-2 btn btn-info  rounded-pill  w-100 h6 shadow-sm" id="proceed_button" data-toggle="popover" title="Are you sure you want to proceed?" data-content="Items in your cart will be lost" data-placement="top">Order Now</p>
+      <p class="col-5 offset-2 btn btn-info  rounded-pill  w-100 h6 shadow-sm" id="proceed_button" data-toggle="popover" title="Are you sure you want to proceed?" data-content="Items in your cart will be lost" data-placement="top">Check Cart</p>
     </div>
   </section>
 </section>

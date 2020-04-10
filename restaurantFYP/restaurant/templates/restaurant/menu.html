@@ -3,8 +3,7 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" http-equiv="ScreenOrientation" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no autoRotate:disabled">
-
+    <meta name="viewport" http-equiv="ScreenOrientation" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, autoRotate:disabled">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Hello, world!</title>
@@ -22,7 +21,8 @@
 	<body class="bg-dark">
 {% for a in Category %}
 <section>
-<form type="hide" method="get" action="{% url 'items' %}" onclick="submit()">
+<form type="hide" method="post" action="{% url 'items' %}" onclick="submit()">
+    {% csrf_token %}
 <input type="hidden" name="name" value="{{a.category_id}}"/>
 <section style="margin-top: 30px; width: 100%">
   <div id="{{a}}" class="image overflow-hidden d-flex align-items-center shadow long_bar" style="height: 150px; background-image: url({{ a.image.url }})">
@@ -40,7 +40,8 @@
   <div style="width: 100%">
     {% for a in Snacks %}
     <section>
-	<form type="hide" method="get" action="{% url 'items' %}" onclick="submit()">
+	<form type="hide" method="post" action="{% url 'items' %}" onclick="submit()">
+        {% csrf_token %}
 	<input type="hidden" name="name" value="{{a.category_id}}"/>
       <div id="{{a}}" class="image overflow-hidden d-flex align-items-center shadow long_bar" style="float: left; width: 48%; height: 150px; background-image: url({{ a.image.url }})">
         <h4 class="text transparent_bg text-light w-75 text-center shadow">{{ a }}</h4>
@@ -53,7 +54,8 @@
 	{% endfor %}
 	{% for a in Drinks %}
 	<section>
-	<form method="get" action="{% url 'items' %}" onclick="submit()">
+	<form method="post" action="{% url 'items' %}" onclick="submit()">
+        {% csrf_token %}
 	<input type="hidden" name="name" value="{{a.category_id}}"/>
     <div id="{{a}}" class="image overflow-hidden d-flex align-items-center shadow long_bar" style="float: right; width: 48%; height: 150px; background-image: url({{ a.image.url }})">
       <h4 class="text transparent_bg text-light w-75 text-center shadow">{{ a }}</h4>

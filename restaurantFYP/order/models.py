@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib import admin
 from django.contrib.auth.models import User
+import datetime
 
 # Create your models here.
 from restaurant.models import Food
@@ -15,7 +16,6 @@ class Order (models.Model):
     def __str__(self):
         return str(self.order_id)
 
-
 class Order_State(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     food = models.ForeignKey(Food, on_delete=models.CASCADE, default='')
@@ -27,12 +27,19 @@ class Order_State(models.Model):
     )
     state = models.CharField(max_length=10, choices=STATE_IN_CHOICE, default='uncooked')
 
+class Temp(models.Model):
+    foods_in_cart = models.ManyToManyField(Food)
+    table_id = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.table_id)
+
 class Order_State_Inline(admin.TabularInline):
     model = Order_State
     extra = 1
 
-
 class Order_Admin(admin.ModelAdmin):
     inlines = (Order_State_Inline,)
 
-
+class Temp_Admin(admin.ModelAdmin):
+     fields = ('foods_in_cart', 'table_id')

@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -20,122 +20,12 @@
 {% block header %}
 		
 {% endblock %}
-	
-<!--	not done yet, use javascript first-->
-	<section id="main_container" class="row" style="margin-top: 60px; margin-bottom: 60px; padding-left: 20px; padding-right: 20px">
-    </section>
-		
-<section>
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="selected_food_name">Item name</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-		  <img id="selected_food_image" src="#" style="height: 150px; object-fit: coverz; display: block; margin-left: auto; margin-right: auto">
-		  <p>
-			  <span id="selected_food_discounted">Total: $</span>
-			  <span id="selected_food_price">dummycontent</span>
-		  </p>
-		  <p>you are warned that discounted item may become full price</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Return item</button>
-      </div>
-    </div>
-  </div>
-</div>
-</section>
+
+{% block content %}
+
+{% endblock %}
 
     <!-- Optional JavaScript -->
-	<script>
-		var returnImage;
-		var returnName;
-		var returnPrice;
-		var returnDiscounted;
-		
-		function insertItem(name, discounted , price, quantity){
-			for(var i = 0;i < quantity; i++){
-				var Div1 = document.createElement("div");
-				Div1.setAttribute("class", "col-6 mb-3 "+name);
-
-					var Div2 = document.createElement("div");
-					Div2.setAttribute("class", "bg-light rounded");
-
-						var Img1 = document.createElement("img");
-						Img1.setAttribute("class", "card-img-top");
-						Img1.setAttribute("src", "practice/"+name+".jpg");
-						Img1.setAttribute("style", "height: 100px; object-fit: cover");
-
-						var Div3 = document.createElement("div");
-						Div3.setAttribute("class", "m-2");
-
-							var H61 = document.createElement("h6");
-							H61.setAttribute("class", "card-title");
-							H61.innerHTML = name;
-
-							var P1 = document.createElement("p");
-							P1.setAttribute("class", "card-text");
-							P1.innerHTML = (discounted?"Discount: $":"Price: $") + parseInt(price).toFixed(1);
-
-							var Div4 = document.createElement("div");
-							Div4.setAttribute("class", "row");
-
-								var P2 = document.createElement("p");
-								P2.setAttribute("class", "col-6");
-								P2.innerHTML = "Pending";
-
-								var P3 = document.createElement("p");
-								P3.setAttribute("class", "col-5 btn btn-danger");
-								P3.setAttribute("data-toggle", "modal");
-								P3.setAttribute("data-target","#exampleModalCenter");
-								P3.setAttribute("onCLick", "returnTab(\""+name+"\", "+price+", "+discounted+")");
-								P3.innerHTML = "Return";
-
-				Div4.appendChild(P2);
-				Div4.appendChild(P3);
-
-				Div3.appendChild(H61);
-				Div3.appendChild(P1);
-				Div3.appendChild(Div4);
-
-				Div2.appendChild(Img1);
-				Div2.appendChild(Div3);
-
-				Div1.appendChild(Div2);
-
-				document.getElementById("main_container").appendChild(Div1);
-			}
-		}
-		
-		function returnTab(name, price, discounted){
-			var tempSrc = document.getElementsByClassName(name)[0].src;
-			returnImage.setAttribute("src", tempSrc);
-			returnName.innerHTML = name;
-			returnPrice.innerHTML = parseInt(price).toFixed(1);
-			returnDiscounted.innerHTML = discounted?"Discounted: $":"Price: $";
-		}
-		
-		window.onload = function(){
-			returnImage = document.getElementById("selected_food_image");
-			returnName = document.getElementById("selected_food_name");
-			returnPrice = document.getElementById("selected_food_price");
-			returnDiscounted = document.getElementById("selected_food_discounted");
-			
-			insertItem("威靈頓牛排", false, 89, 1);
-			insertItem("乾炒牛河", false, 34.5, 1);
-			insertItem("豆腐班腩飯", false, 32, 1);
-			insertItem("冰火紅豆沙", true, 16, 2);
-		}
-		
-		
-	</script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

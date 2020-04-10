@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from django.template import RequestContext
 from restaurant.models import Category, Food
-from order.models import Order
+from order.models import Order, Order_State, Temp
 from django.views.generic import TemplateView
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
+import datetime
 
 # Create your views here.
 def index(request):
@@ -91,12 +93,18 @@ def menu(request):
 def block_orders(request):
     """Renders the home page."""
     #assert isinstance(request, HttpRequest)
+    print(auth.get_user(request))
+    bill = Order.objects.get(table_id = auth.get_user(request), billed = False),
+    foodlist = []
+    for table in bill:
+        state = Order_State.objects.filter(order = table)
+        for state in state:
+            foodlist.append(state)
+    context = {'foodlist' : foodlist}
     return render(
         request,
         'restaurant/block_orders.html',
-        {
-            
-        }
+        context
     )
 
 @login_required(redirect_field_name='login')
@@ -137,15 +145,10 @@ def services(request):
 
 @login_required(redirect_field_name='login')
 def block_cart(request):
-    """Renders the home page."""
-    #assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'restaurant/block_cart.html',
-        {
-            'value':'Default',
-        }
-    )
+    cart = Temp.objects.all()[0] 
+    context = {'cart': cart}
+    template = 'restaurant/block_cart.html'
+    return render(request, template, context)
 
 @login_required(redirect_field_name='login')
 def cart(request):
@@ -163,7 +166,7 @@ def cart(request):
 def block_items(request):
 	"""Renders the home page."""
 	#assert isinstance(request, HttpRequest)
-	query = request.GET.get('name')
+	query = request.POST.get('name')
 	print(query)
 	foods = Food.objects.filter(category_id = query)
 	print(foods)
@@ -183,3 +186,13 @@ def items(request):
         request,
         'restaurant/items.html',
     )
+
+@login_required(redirect_field_name='login')
+def add_to_cart(request):
+   food_id = request.POST.get('food_id')
+   try:
+        cart = Temp.objects.get(table_id=auth.get_user(request))
+   except Temp.DoesNotExist:
+        cart = Temp.objects.create(table_id=auth.get_user(request))
+   cart.foods_in_cart.add(food_id)
+   return HttpResponseRedirect('home/menu')

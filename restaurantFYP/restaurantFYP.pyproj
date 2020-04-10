@@ -40,6 +40,7 @@
     <Compile Include="manage.py" />
     <Compile Include="order\admin.py" />
     <Compile Include="order\apps.py" />
+    <Compile Include="order\migrations\0001_initial.py" />
     <Compile Include="order\migrations\__init__.py" />
     <Compile Include="order\models.py" />
     <Compile Include="order\tests.py" />
@@ -78,6 +79,7 @@
     <Folder Include="restaurant\templates\restaurant\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\static\app\scripts\general_functions.js" />
     <Content Include="db.sqlite3">
       <SubType>Code</SubType>
     </Content>
