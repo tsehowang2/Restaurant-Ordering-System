@@ -146,14 +146,15 @@ def services(request):
 def block_cart(request):
     cart = Cart.objects.filter(table_id = auth.get_user(request))
     foodlist = []
-    foodnumb = []
     for cart in cart:
         cart_food = cart.carted_food.all()
         while True:
-            foods = cart_foodlist[0]
-            quantity = cart_food.filter(food_id = cart_food[0].food_id).count()
-            cart_food = cart_food.filter(food_id != cart_food[0].food_id)
-            foodlist.append(foods, quantity)
+            foods = cart_food[0]
+            quantity = sum(f.food_id == cart_food[0].food_id for f in cart_food)
+            print(quantity)
+            cart_food = list(filter((cart_food[0]).__ne__, cart_food))
+            aaa = [foods, quantity]
+            foodlist.append(aaa)
             if not cart_food:
                 break
     context = {'cart': foodlist}
