@@ -144,12 +144,18 @@ def services(request):
 
 @login_required(redirect_field_name='login')
 def block_cart(request):
-    cart = Temp.objects.filter(table_id = auth.get_user(request))
+    cart = Cart.objects.filter(table_id = auth.get_user(request))
     foodlist = []
+    foodnumb = []
     for cart in cart:
-        print(cart.foods_in_cart.all())
-        for foods in cart.foods_in_cart.all():
-            foodlist.append(foods)
+        cart_food = cart.carted_food.all()
+        while True:
+            foods = cart_foodlist[0]
+            quantity = cart_food.filter(food_id = cart_food[0].food_id).count()
+            cart_food = cart_food.filter(food_id != cart_food[0].food_id)
+            foodlist.append(foods, quantity)
+            if not cart_food:
+                break
     context = {'cart': foodlist}
     template = 'restaurant/block_cart.html'
     return render(request, template, context)
