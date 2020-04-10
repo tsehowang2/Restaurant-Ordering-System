@@ -198,4 +198,5 @@ def add_to_cart(request):
         cart = Cart.objects.create(table_id=auth.get_user(request))
    for x in range(quantity):
         cart_state = Cart_State.objects.create(cart=cart, food=food)
+
    return HttpResponseRedirect('home/menu')
