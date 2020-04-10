@@ -93,7 +93,6 @@ def menu(request):
 def block_orders(request):
     """Renders the home page."""
     #assert isinstance(request, HttpRequest)
-    print(auth.get_user(request))
     bill = Order.objects.get(table_id = auth.get_user(request), billed = False),
     foodlist = []
     for table in bill:
@@ -145,8 +144,13 @@ def services(request):
 
 @login_required(redirect_field_name='login')
 def block_cart(request):
-    cart = Temp.objects.all()[0] 
-    context = {'cart': cart}
+    cart = Temp.objects.filter(table_id = auth.get_user(request))
+    foodlist = []
+    for cart in cart:
+        print(cart.foods_in_cart.all())
+        for foods in cart.foods_in_cart.all():
+            foodlist.append(foods)
+    context = {'cart': foodlist}
     template = 'restaurant/block_cart.html'
     return render(request, template, context)
 
@@ -157,9 +161,6 @@ def cart(request):
     return render(
         request,
         'restaurant/cart.html',
-        {
-            
-        }
     )
 
 @login_required(redirect_field_name='login')
@@ -167,9 +168,7 @@ def block_items(request):
 	"""Renders the home page."""
 	#assert isinstance(request, HttpRequest)
 	query = request.POST.get('name')
-	print(query)
 	foods = Food.objects.filter(category_id = query)
-	print(foods)
 	title = Category.objects.filter(category_id = query)
 	args = {'Food': foods, 'Title': title}
 	return render(
