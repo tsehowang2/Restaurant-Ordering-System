@@ -24,18 +24,16 @@
         <p class="card-text">Price: {{a.food.price}}<br />Quantity: {{a.quantity}}</p>
         <div class="row">
           <p class="col-6">{% if a.state == 'uncooked' %}pending{% else %}{{a.state}}{% endif %}</p>
-          <p class="col-5 btn {%if a.state == 'uncooked' %}btn-danger{% else %}btn-secondary disabled{% endif%}" data-toggle="modal" data-target="#{{a.food.food_id}}_modal">Return</p>
+          <p class="col-5 btn {%if a.state == 'uncooked' %}btn-danger{% else %}btn-secondary disabled{% endif%}" data-toggle="modal" data-target="#{{a.food.food_id}}_{{ forloop.counter0 }}_modal">Return</p>
         </div>
       </div>
     </div>
   </div>
     {% cycle '' '</div>' %}
-{% endfor %}
-{% for a in foodlist %}
-{% if a.state == 'uncooked' %}
+    {% if a.state == 'uncooked' and a.state != 'cancelled' %}
 <section>
 <!-- Modal -->
-<div class="modal fade" id="{{a.food.food_id}}_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="{{a.food.food_id}}_{{ forloop.counter0 }}_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
