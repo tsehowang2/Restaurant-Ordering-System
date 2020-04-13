@@ -21,8 +21,8 @@
 		  .opa{background: linear-gradient(90deg, rgba(248,249,250,0), rgba(248,249,250,1));}
 		  .transparent_bg{background: rgba(0, 0, 0, 0.5)}
 	  </style>
-	  <script>
-	  </script>
+      {% load staticfiles %}
+	  <script type="text/javascript" src="{% static 'app/scripts/general_functions.js' %}"></script>
   </head>
 	<body class="bg-dark">
 	{% block header %}

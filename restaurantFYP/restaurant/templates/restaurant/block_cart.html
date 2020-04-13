@@ -14,6 +14,115 @@
 {% block content %}
 <section id="maincontainer" style="margin-top: 60px; margin-bottom: 120px">
 {% for food, quantity in cart %}
+    <form action=# method="post">
+    {% csrf_token %}
+    <!-- Modal -->
+    <div class="modal fade" id="{{food.food_id}}_modal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="selected_food_name">{{food.food_name}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <img src="{{food.image.url}}" style="height: 150px; object-fit: cover; display: block; margin-left: auto; margin-right: auto">
+              <p>
+                  <span>Total: $</span>
+                  <span id="{{food.food_id}}_total">{{food.price}}</span>
+              </p>
+              <p>
+                  <span>{{food.description}}</span>
+              </p>
+              <div class="w-75 d-flex" style="margin: auto">
+                <p id="{{food.food_id}}_modalSub" class="btn btn-dark w-25" onclick="changeModalQuantity('{{food.food_id}}', -1, '{{food.price}}')">-</p>
+                <input type="text" readonly="readonly" style="border: 0; text-align: center; width: 49%" id="{{food.food_id}}_modalCount" class="text-dark text-center" name="quantity" value="{{quantity}}">
+                <p id="{{food.food_id}}_modalAdd" class="btn btn-dark w-25" onclick="changeModalQuantity('{{food.food_id}}', 1, '{{food.price}}')">+</p>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="changeModalQuantity('{{food.food_id}}', 0, '{{food.price}}')">Cancel</button>
+            <input type="hidden" name="food_id" value="{{a.food_id}}">
+            <button type="submit" class="btn btn-primary">Proceed changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+
+    <form action=# method="post">
+    {% csrf_token %}
+    <!-- Modal -->
+    <div class="modal fade" id="{{food.food_id}}_modal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="selected_food_name">{{food.food_name}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <img src="{{food.image.url}}" style="height: 150px; object-fit: cover; display: block; margin-left: auto; margin-right: auto">
+              <p>
+                  <span>Total: $</span>
+                  <span id="{{food.food_id}}_total">{{food.price}}</span>
+              </p>
+              <p>
+                  <span>{{food.description}}</span>
+              </p>
+              <div class="w-75 d-flex" style="margin: auto">
+                <p id="{{food.food_id}}_modalSub" class="btn btn-dark w-25" onclick="changeModalQuantity('{{food.food_id}}', -1, '{{food.price}}')">-</p>
+                <input type="text" readonly="readonly" style="border: 0; text-align: center; width: 49%" id="{{food.food_id}}_modalCount" class="text-dark text-center" name="quantity" value="{{quantity}}">
+                <p id="{{food.food_id}}_modalAdd" class="btn btn-dark w-25" onclick="changeModalQuantity('{{food.food_id}}', 1, '{{food.price}}')">+</p>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="changeModalQuantity('{{food.food_id}}', 0, '{{food.price}}')">Cancel</button>
+            <input type="hidden" name="food_id" value="{{food.food_id}}">
+            <button type="submit" class="btn btn-primary">Proceed changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+
+    <form action=# method="post">
+    {% csrf_token %}
+    <!-- Modal -->
+    <div class="modal fade" id="{{food.food_id}}_return" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="selected_food_name">{{food.food_name}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+		        <img id="selected_food_image" src="{{food.image.url}}" style="height: 150px; object-fit: cover; display: block; margin-left: auto; margin-right: auto">
+		        <p>
+			        <span id="selected_food_discounted">Total: $</span>
+			        <span id="selected_food_price">{{food.price}}</span>
+		        </p>
+                <p>
+			        <span id="selected_food_discounted">Each: </span>
+			        <span id="selected_food_price">{{quantity}}</span>
+		        </p>
+		        <p>Remove from cart?</p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <input type="hidden" name="food_id" value="{{food.food_id}}">
+            <input type="hidden" name="quantity" value="0" />
+            <button type="submit" class="btn btn-warning">Return item</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    </form>
+
   <div class="m-4 bg-light shadow" id="{{food.food_id}}_{{ forloop.counter0 }}">
     <div class="row rounded" style="background-image: url({{food.image.url}}); background-size: auto 100%; height: 130px">
       <div class="col-1 offset-4 opa"></div>
@@ -26,10 +135,10 @@
             <p class="align-self-center"><span class="float-left">Take: </span><span class="float-right">{{quantity}}</span></p>
           </div>
           <div class="col-3">
-            <p class="btn btn-dark text-center rounded" style="font-size: 120%; text-align: center" data-toggle="modal" data-target="#exampleModalCenter">🖊</p>
+            <p class="btn btn-dark text-center rounded" style="font-size: 120%; text-align: center" data-toggle="modal" data-target="#{{food.food_id}}_modal">🖊</p>
           </div>
           <div class="col-3">
-            <p class="btn btn-danger text-center rounded" style="font-size: 120%; text-align: center">×</p>
+            <p class="btn btn-danger text-center rounded" style="font-size: 120%; text-align: center" data-toggle="modal" data-target="#{{food.food_id}}_return">×</p>
           </div>
         </div>
       </div>
