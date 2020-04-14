@@ -3,7 +3,7 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" http-equiv="ScreenOrientation" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no autoRotate:disabled">
+    <meta name="viewport" http-equiv="ScreenOrientation" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, autoRotate:disabled">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -19,23 +19,82 @@
 			  -ms-transform: translateY(-50%);
 			  transform: translateY(-50%);
 			}
+          .icon {
+              margin-left: 15%;
+              margin-top: 15%;
+              width: 70%;
+              height: 70%;
+              padding-bottom: 20px;
+              filter: invert(47%) sepia(53%) saturate(668%) hue-rotate(140deg) brightness(100%) contrast(91%);
+          }
+          hr.style15 {
+	            border-top: 10px double #8c8b8b;
+	            text-align: center;
+
+            }
+            hr.style15:after {
+	            content: '\002665';
+	            display: inline-block;
+	            position: relative;
+	            top: -15px;
+	            padding: 0 10px;
+	            background: #f0f0f0;
+	            color: #8c8b8b;
+	            font-size: 18px;
+            }
+          hr.style17 {
+	          border-top: 6px double #8c8b8b;
+	          text-align: center;
+          }
+          hr.style17:after {
+	          content: '§';
+	          display: inline-block;
+	          position: relative;
+	          top: -16px;
+	          padding: 0 10px;
+	          background: #ffffff;
+	          color: #8c8b8b;
+	          font-size: 18px;
+	          -webkit-transform: rotate(60deg);
+	          -moz-transform: rotate(60deg);
+	          transform: rotate(60deg);
+          }
 	  </style>
   </head>
-	<body class="container bg-light">
-    <div class="d-flex justify-content-center vertical-center">
+	<body class="bg-info">
+    <div class="row w-100 d-flex justify-content-center vertical-center">
 		<div class="col-8 card" id="formContent">
 		<!-- Login Form -->
 			<div class="card-body row">
-            <form action="login" method="post">
-                {% csrf_token %}
-                {{form.as_p}}
-			    <input type="text" id="username" class="col-12" name="username" placeholder="Table number">
-			    <div class="col-12" style="height: 100px"><p></p></div>
-                <input type="hidden" name="password" value="1"/>
-			    <input type="submit" class="btn col-12 btn-info">
-			  </form>
- 		</div>
-	</div>
+                <form class="w-100 p-3 form-horizontal" action="login" method="post">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <div class="form-group row">
+                        <div class="col-12" style="height: 200px; padding-left: 0px; padding-right: 0px;">
+                            <svg id="d1" class="icon" viewBox="0 0 512 512">
+                            <path d="M468.7,399.9c-31.9-26.7-125.6-105.3-168.6-143.7c23.3-21.3,55.9-53.1,87.5-84c36.3-35.3,70.5-68.8,86.1-81.9
+	                            c7.9-6.7,12.4-16.4,12.4-26.8c0-13-6.8-24.5-18.1-30.8c-11.3-6.3-24.5-6-35.5,0.9C397.3,55.6,256,157.2,256,179.1
+	                            c0,6.5-0.3,14.1-2.6,22.7c-10.6-18.1-16.6-34.7-16.6-41.9c0-13.7-46.4-58.1-137.8-132.2c-3.8-3.1-10.2-2-13.6,1.5
+	                            c-3.7,3.7-3.7,9.8,0,13.6l91.1,91.2c3.7,3.7,3.7,9.8,0,13.6c-3.6,3.6-9.9,3.6-13.6,0L71.8,56.3c-3.7-3.7-9.8-3.7-13.6,0l-1.6,1.6
+	                            c-3.7,3.7-3.7,9.8,0,13.6l91.1,91.2c3.7,3.7,3.7,9.8,0,13.6c-3.6,3.6-9.9,3.6-13.6,0L43,85.1c-3.7-3.7-10.6-2.9-14.4,0.8
+	                            c-3.5,3.5-3.8,9-0.7,12.8c74,91.5,118.5,137.9,132.1,137.9c8.1,0,28.6,7.9,49.7,21.5C167.2,295.9,80.6,368.7,43.3,399.9
+	                            c-11.1,9.3-17.4,22.9-17.4,37.4c0,26.9,21.9,48.8,48.8,48.8c14.5,0,28.1-6.4,37.4-17.5c32-38.3,107-127.7,144-169.1
+	                            c38.2,42.8,117.2,137.2,144,169.2c9.3,11.1,22.9,17.4,37.4,17.4c26.9,0,48.8-21.9,48.8-48.8C486.2,422.8,479.8,409.2,468.7,399.9z"
+	                            />
+                            </svg>
+                            <h2 class="text-info text-center">WELCOME</h2>
+                        </div>
+                        <hr class="style17 col-10" style="margin-top: 30px; margin-bottom: 30px;" />
+                        <input type="hidden" name="password" value="1"/>
+                        <label for="username"> </label>
+			            <input type="text" id="username" class="col-12 form-control form-control-lg" name="username" placeholder="Table number">
+                        <label for="submit"> </label>
+			            <input type="submit" id="submit" class="btn col-12 btn-info form-control" style="margin-top: 5px" value="Enter">
+                    </div>
+			    </form>
+ 		    </div>
+	    </div>
+    </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

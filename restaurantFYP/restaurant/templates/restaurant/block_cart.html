@@ -18,7 +18,7 @@
     <form action={% url 'remove_from_cart' %} method="post">
     {% csrf_token %}
     <!-- Modal -->
-    <div class="modal fade" id="{{food.food_id}}_return" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="return_{{ forloop.counter0 }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -30,25 +30,22 @@
             <div class="modal-body">
 		        <img id="selected_food_image" src="{{food.image.url}}" style="height: 150px; object-fit: cover; display: block; margin-left: auto; margin-right: auto">
 		        <p>
-			        <span id="selected_food_discounted">Total: $</span>
+			        <span id="selected_food_discounted">Price: $</span>
 			        <span id="selected_food_price">{{food.price}}</span>
-		        </p>
-                <p>
-			        <span id="selected_food_discounted">Price: </span>
 		        </p>
 		        <p>Remove from cart?</p>
             </div>
             <div class="modal-footer">
                 <input type="hidden" name="food_id" value="{{food.food_id}}" />
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-warning">Return food</button>
+            <button type="button" class="btn btn-warning" onclick="returnThis('{{food.food_id}}', '{{ forloop.counter0 }}')">Return food</button>
             </div>
         </div>
         </div>
     </div>
     </form>
 
-  <div class="m-4 bg-light shadow" id="{{food.food_id}}_{{ forloop.counter0 }}">
+  <div class="m-4 bg-light shadow" id="content_{{ forloop.counter0 }}">
     <div class="row rounded" style="background-image: url({{food.image.url}}); background-size: auto 100%; height: 130px">
       <div class="col-1 offset-4 opa"></div>
       <div class="col bg-light rounded">
@@ -57,7 +54,7 @@
         <p id="{{food.food_name}}_desc" style="display: none">{{food.description}}</p>
         <div class="row gap" style="padding-right: 15px">
           <div class="col-3 offset-9">
-            <p class="btn btn-danger text-center rounded" style="font-size: 120%; text-align: center" data-toggle="modal" data-target="#{{food.food_id}}_return">×</p>
+            <p class="btn btn-danger text-center rounded" style="font-size: 120%; text-align: center" data-toggle="modal" data-target="#return_{{ forloop.counter0 }}">×</p>
           </div>
         </div>
       </div>
