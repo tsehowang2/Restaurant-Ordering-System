@@ -40,8 +40,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <input type="hidden" name="food_id" value="{{food.food_id}}">
-            <button type="submit" class="btn btn-warning">Return item</button>
+            <button type="button" class="btn btn-warning" onclick="removeThis('{{food.food_id}}')">Return item</button>
             </div>
         </div>
         </div>
