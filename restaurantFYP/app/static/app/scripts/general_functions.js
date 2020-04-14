@@ -4,7 +4,7 @@ function changeModalQuantity(id, i, price) {
     console.log(qtyvalue+", "+i);
 	if (i == 0) {
 		qty.setAttribute("class", "text-dark text-center");
-		document.getElementById(id + "_total").innerHTML = (price).toFixed(1);
+		document.getElementById(id + "_total").innerHTML = parseInt((price)).toFixed(1);
         qty.setAttribute("value", 1);
     }
 	else if (parseInt(qtyvalue) + i != 0) {

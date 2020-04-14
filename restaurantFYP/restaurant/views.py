@@ -172,13 +172,14 @@ def cart(request):
 
 @login_required(redirect_field_name='login')
 def block_items(request):
-	"""Renders the home page."""
-	#assert isinstance(request, HttpRequest)
-	query = request.POST.get('name')
-	foods = Food.objects.filter(category_id = query)
-	title = Category.objects.filter(category_id = query)
-	args = {'Food': foods, 'Title': title}
-	return render(
+    """Renders the home page."""
+    #assert isinstance(request, HttpRequest)
+    query = request.POST.get('name')
+    foods = Food.objects.filter(category_id = query)
+    foods = Food.objects.filter(available = True)
+    title = Category.objects.filter(category_id = query)
+    args = {'Food': foods, 'Title': title}
+    return render(
 		request,
 		'restaurant/block_items.html',
 		args,
@@ -197,6 +198,8 @@ def items(request):
 def add_to_cart(request):
    food_id = request.POST.get('food_id')
    quantity = int(request.POST.get('quantity'))
+   print(food_id)
+   print(quantity)
    food = Food.objects.get(food_id=food_id)
    try:
         cart = Cart.objects.get(table_id=auth.get_user(request))
@@ -205,4 +208,4 @@ def add_to_cart(request):
    for x in range(quantity):
         cart_state = Cart_State.objects.create(cart=cart, food=food)
 
-   return HttpResponseRedirect('home/menu')
+   return HttpResponse('')

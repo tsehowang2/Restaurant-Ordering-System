@@ -22,7 +22,7 @@
 {% block content %}
 <section id="maincontainer" style="margin-top: 60px; margin-bottom: 60px">
 {% for a in Food %}
-<form action="{% url 'add_to_cart'%}" method="post"> 
+<form action="{% url 'add_to_cart'%}" method="post" id="{{a.food_id}}_form"> 
 {% csrf_token %}
 <!-- Modal -->
 <div class="modal fade" id="{{a.food_id}}_modal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
@@ -52,7 +52,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="changeModalQuantity('{{a.food_id}}', 0, '{{a.price}}')">Cancel</button>
         <input type="hidden" name="food_id" value="{{a.food_id}}">
-        <button type="submit" class="btn btn-primary">Add to cart</button>
+        <button type="button" class="btn btn-primary" onclick="addThis('{{a.food_id}}_form', '{{a.food_id}}', '{{a.food_id}}_modalCount');">Add to cart</button>
       </div>
     </div>
   </div>
