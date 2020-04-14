@@ -43,10 +43,20 @@ def logout(request):
 
 @login_required(redirect_field_name='login')
 def block_home(request):
-	"""Renders the home page."""
-	return render(
+    """Renders the home page."""
+    hasOrder = False
+    try:
+       bill = Order.objects.get(table_id = auth.get_user(request), billed = False)
+       hasOrder = True
+    except Order.DoesNotExist:
+        hasOrder = False
+    print(hasOrder)
+    args = {'hasOrder': hasOrder}
+    print(args)
+    return render(
         request,
         'restaurant/block_home.html',
+        args,
     )
 
 @login_required(redirect_field_name='login')
@@ -148,15 +158,8 @@ def block_cart(request):
     foodlist = []
     for cart in cart:
         cart_food = cart.carted_food.all()
-        while True:
-            foods = cart_food[0]
-            quantity = sum(f.food_id == cart_food[0].food_id for f in cart_food)
-            print(quantity)
-            cart_food = list(filter((cart_food[0]).__ne__, cart_food))
-            aaa = [foods, quantity]
-            foodlist.append(aaa)
-            if not cart_food:
-                break
+        for food in cart_food:
+            foodlist.append(food)
     context = {'cart': foodlist}
     template = 'restaurant/block_cart.html'
     return render(request, template, context)

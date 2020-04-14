@@ -46,9 +46,9 @@
     </div>
   </div>
 </div>
-<a href="{% url 'orders' %}">
+<a {% if hasOrder %} href="{% url 'orders' %}" {% endif %}>
   <div id="Orders" style="margin-right: 6%; width: 40%; float: right">
-    <div class="btn btn-info rounded" style="margin: auto; width: 100%">
+    <div class="btn btn-info rounded{% if not hasOrder %} disabled {% endif %}" style="margin: auto; width: 100%">
       <div style="margin: auto; width: 80%; padding-top:20px">
         <svg viewBox="0 0 512 512" class="logo">
           <path d="M416,32h-80.001c-0.007,0-0.013,0.001-0.02,0.001C328.674,22.292,317.059,16,304,16h-20.39C277.966,6.242,267.481,0,256,0
