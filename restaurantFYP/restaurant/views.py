@@ -221,4 +221,5 @@ def remove_from_cart(request):
    cart = Cart.objects.get(table_id=auth.get_user(request))
    cart_state = Cart_State.objects.filter(cart=cart, food=food).first()
    cart_state.delete()
+
    return HttpResponseRedirect('cart')
