@@ -99,7 +99,11 @@
     </div>
     <div class="row justify-content-between m-2">
       <a class="col-5 btn btn-warning rounded-pill w-100 h6 shadow-sm" href="{% url 'menu' %}">Back</a>
-      <p class="col-5 offset-2 btn btn-info  rounded-pill  w-100 h6 shadow-sm" id="proceed_button" data-toggle="popover" title="Are you sure you want to proceed?" data-content="Items in your cart will be lost" data-placement="top">Check Cart</p>
+      <form class="col-5 offset-2" style="padding-left: 0px;padding-right: 0px;" typeof="hide" action="{% url 'cart' %}" method="post" onclick="submit()">
+      {% csrf_token %}
+      <input type="hidden" name="category_id" value="{{category_id}}" />
+       <p class="btn btn-info  rounded-pill w-100 h6 shadow-sm" id="proceed_button">My Cart</p>
+      </form>
     </div>
   </section>
 </section>

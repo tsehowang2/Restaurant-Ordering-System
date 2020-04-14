@@ -154,13 +154,14 @@ def services(request):
 
 @login_required(redirect_field_name='login')
 def block_cart(request):
+    category_id = request.POST.get('category_id')
     cart = Cart.objects.filter(table_id = auth.get_user(request))
     foodlist = []
     for cart in cart:
         cart_food = cart.carted_food.all()
         for food in cart_food:
             foodlist.append(food)
-    context = {'cart': foodlist}
+    context = {'cart': foodlist, 'category_id': category_id}
     template = 'restaurant/block_cart.html'
     return render(request, template, context)
 
@@ -177,11 +178,11 @@ def cart(request):
 def block_items(request):
     """Renders the home page."""
     #assert isinstance(request, HttpRequest)
-    query = request.POST.get('name')
-    foods = Food.objects.filter(category_id = query)
+    category_id = request.POST.get('category_id')
+    foods = Food.objects.filter(category_id = category_id)
     foods = Food.objects.filter(available = True)
-    title = Category.objects.filter(category_id = query)
-    args = {'Food': foods, 'Title': title}
+    title = Category.objects.filter(category_id = category_id)
+    args = {'Food': foods, 'Title': title, 'category_id': category_id}
     return render(
 		request,
 		'restaurant/block_items.html',
@@ -220,4 +221,4 @@ def remove_from_cart(request):
    cart = Cart.objects.get(table_id=auth.get_user(request))
    cart_state = Cart_State.objects.filter(cart=cart, food=food).first()
    cart_state.delete()
-   return HttpResponse('')
+   return HttpResponseRedirect('cart')

@@ -15,7 +15,7 @@
 <section id="maincontainer" style="margin-top: 60px; margin-bottom: 120px">
 {% for food in cart %}
 
-    <form action=# method="post">
+    <form action={% url 'remove_from_cart' %} method="post">
     {% csrf_token %}
     <!-- Modal -->
     <div class="modal fade" id="{{food.food_id}}_return" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -39,8 +39,9 @@
 		        <p>Remove from cart?</p>
             </div>
             <div class="modal-footer">
+                <input type="hidden" name="food_id" value="{{food.food_id}}" />
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-warning" onclick="removeThis('{{food.food_id}}', '{{ forloop.counter0 }}')">Return item</button>
+            <button type="submit" class="btn btn-warning">Return food</button>
             </div>
         </div>
         </div>
@@ -79,7 +80,15 @@
       </div>
     </div>
     <div class="row justify-content-between m-2">
-      <a href="{% url 'menu' %}" class="col-5 btn btn-warning rounded-pill w-100 h6" id="exit_button">Back</a>
+      {%if category_id %}
+        <form class="col-5" type="hide" style="padding-left: 0px;padding-right: 0px;" action="{% url 'items' %}" method="post" onclick="submit();">
+            {% csrf_token %}
+            <input type="hidden" name="category_id" value="{{category_id}}" />
+            <p class="btn btn-warning rounded-pill w-100 h6" id="exit_button">Back1</p>
+       </form>
+      {% else %}
+        <a href="{% url 'menu' %}" class="col-5 btn btn-warning rounded-pill w-100 h6" id="exit_button">Back2</a>
+      {% endif %}
       <p class="col-5 offset-2 btn btn-info  rounded-pill  w-100 h6" id="proceed_button" data-toggle="popover" title="Are you sure you want to proceed?" data-content="Items in your cart will be lost" data-placement="top">Order now</p>
     </div>
   </section>

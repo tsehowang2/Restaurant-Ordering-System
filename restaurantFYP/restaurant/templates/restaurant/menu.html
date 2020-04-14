@@ -22,8 +22,8 @@
 {% for a in Category %}
 <section>
 <form type="hide" method="post" action="{% url 'items' %}" onclick="submit()">
-    {% csrf_token %}
-<input type="hidden" name="name" value="{{a.category_id}}"/>
+{% csrf_token %}
+<input type="hidden" name="category_id" value="{{a.category_id}}"/>
 <section style="margin-top: 30px; width: 100%">
   <div id="{{a}}" class="image overflow-hidden d-flex align-items-center shadow long_bar" style="height: 150px; background-image: url({{ a.image.url }})">
     <h4 class="transparent_bg text-light w-75 text-center shadow" style="padding: 10px; margin: auto">{{ a }}</h4>
@@ -75,20 +75,6 @@
 	{% block footer %}
 		
 	{% endblock %}
-	<form id="sub" type="hidden" action="#">
-	<input type="hidden" id="table_id" name="table_id" value=TABLE_ID/>
-	<input type="hidden" id="category" name="name" value="#"/>
-	</form>
-<!-- Optional JavaScript --> 
-		<script>
-		const TABLE_ID = {{Table_ID}}
-		window.onload = function(){
-		function sub(name, path){
-		document.getElementById("category").setAttribute("value", name);
-		document.getElementById("sub").setAttribute("action", path);
-		document.getElementById("sub").submit();}
-		}
-		</script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
