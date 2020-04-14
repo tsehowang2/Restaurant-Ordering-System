@@ -212,3 +212,12 @@ def add_to_cart(request):
         cart_state = Cart_State.objects.create(cart=cart, food=food)
 
    return HttpResponse('')
+
+@login_required(redirect_field_name='login')
+def remove_from_cart(request):
+   food_id = request.POST.get('food_id')
+   food = Food.objects.get(food_id=food_id)
+   cart = Cart.objects.get(table_id=auth.get_user(request))
+   cart_state = Cart_State.objects.filter(cart=cart, food=food).first()
+   cart_state.delete()
+   return HttpResponse('')

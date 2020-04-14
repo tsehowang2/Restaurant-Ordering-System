@@ -29,6 +29,7 @@ urlpatterns = [
 	url(r'^cart$', restaurant.views.block_cart, name='cart'),
 	url(r'^home/menu/items$', restaurant.views.block_items, name='items'),
     url(r'^home/menu/addtocart$', restaurant.views.add_to_cart, name='add_to_cart'),
+    url(r'^removefromcart$', restaurant.views.remove_from_cart, name='remove_from_cart'),
 	#url(r'^services$', restaurant.views.services, name='services'),
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about$', app.views.about, name='about'),
