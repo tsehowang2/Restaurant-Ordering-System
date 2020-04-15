@@ -200,26 +200,43 @@ def items(request):
 
 @login_required(redirect_field_name='login')
 def add_to_cart(request):
-   food_id = request.POST.get('food_id')
-   quantity = int(request.POST.get('quantity'))
-   print(food_id)
-   print(quantity)
-   food = Food.objects.get(food_id=food_id)
-   try:
+    food_id = request.POST.get('food_id')
+    quantity = int(request.POST.get('quantity'))
+    print(food_id)
+    print(quantity)
+    food = Food.objects.get(food_id=food_id)
+    try:
         cart = Cart.objects.get(table_id=auth.get_user(request))
-   except Cart.DoesNotExist:
+    except Cart.DoesNotExist:
         cart = Cart.objects.create(table_id=auth.get_user(request))
-   for x in range(quantity):
+    for x in range(quantity):
         cart_state = Cart_State.objects.create(cart=cart, food=food)
 
-   return HttpResponse('')
+    return HttpResponse('')
 
 @login_required(redirect_field_name='login')
 def remove_from_cart(request):
-   food_id = request.POST.get('food_id')
-   food = Food.objects.get(food_id=food_id)
-   cart = Cart.objects.get(table_id=auth.get_user(request))
-   cart_state = Cart_State.objects.filter(cart=cart, food=food).first()
-   cart_state.delete()
+    food_id = request.POST.get('food_id')
+    food = Food.objects.get(food_id=food_id)
+    cart = Cart.objects.get(table_id=auth.get_user(request))
+    cart_state = Cart_State.objects.filter(cart=cart, food=food).first()
+    cart_state.delete()
 
-   return HttpResponse('')
+    return HttpResponse('')
+
+@login_required(redirect_field_name='login')
+def proceed_order(request):
+    table_id = auth.get_user(request)
+    cart = Cart.objects.filter(table_id = table_id)
+    for cart in cart:
+        cart_food = cart.carted_food.all()
+        for food in cart_food:
+            try:
+                order = Order.objects.get(table_id = auth.get_user(request), billed = False)
+            except Order.DoesNotExist:
+                order = Order.objects.create(table_id=auth.get_user(request))
+            print(order)
+            order_state = Order_State.objects.create(order=order, food=food, state='uncooked')
+    cart.delete()
+
+    return HttpResponseRedirect('home')
