@@ -4,12 +4,12 @@ function changeModalQuantity(id, i, price) {
     console.log(qtyvalue+", "+i);
 	if (i == 0) {
 		qty.setAttribute("class", "text-dark text-center");
-		document.getElementById(id + "_total").innerHTML = parseInt((price)).toFixed(1);
+		document.getElementById(id + "_total").innerHTML = parseFloat((price)).toFixed(1);
         qty.setAttribute("value", 1);
     }
 	else if (parseInt(qtyvalue) + i != 0) {
 		qty.setAttribute("class", "text-dark text-center");
-		document.getElementById(id + "_total").innerHTML = (price * (qtyvalue + i)).toFixed(1);
+		document.getElementById(id + "_total").innerHTML = (parseFloat(price) * (qtyvalue + i)).toFixed(1);
 		qty.setAttribute("value", qtyvalue + i);
 	}
 	else qty.setAttribute("class", "text-danger text-center");

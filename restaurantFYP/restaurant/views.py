@@ -74,14 +74,20 @@ def home(request):
 
 @login_required(redirect_field_name='login')
 def block_menu(request):
-	"""Renders the home page."""
-	#assert isinstance(request, HttpRequest)
-	category = Category.objects.exclude(category_name = 'Drinks')
-	category = category.exclude(category_name =  'Snacks')
-	drinks = Category.objects.filter(category_name = 'Drinks')
-	snacks = Category.objects.filter(category_name = 'Snacks')
-	args = {'Category': category, 'Drinks': drinks, 'Snacks': snacks}
-	return render(
+    """Renders the home page."""
+    #assert isinstance(request, HttpRequest)
+    category = Category.objects.exclude(category_name = 'Drinks')
+    category = category.exclude(category_name =  'Snacks')
+    drinks = Category.objects.filter(category_name = 'Drinks')
+    snacks = Category.objects.filter(category_name = 'Snacks')
+    cart = Cart.objects.filter(table_id = auth.get_user(request))
+    total = 0
+    for cart in cart:
+        cart_food = cart.carted_food.all()
+        for food in cart_food:
+            total += food.price
+    args = {'Category': category, 'Drinks': drinks, 'Snacks': snacks, 'Total': total}
+    return render(
         request,
         'restaurant/block_menu.html',
 		args,
@@ -182,7 +188,13 @@ def block_items(request):
     foods = Food.objects.filter(category_id = category_id)
     foods = Food.objects.filter(available = True)
     title = Category.objects.filter(category_id = category_id)
-    args = {'Food': foods, 'Title': title, 'category_id': category_id}
+    cart = Cart.objects.filter(table_id = auth.get_user(request))
+    total = 0
+    for cart in cart:
+        cart_food = cart.carted_food.all()
+        for food in cart_food:
+            total += food.price
+    args = {'Food': foods, 'Title': title, 'category_id': category_id, 'Total': total}
     return render(
 		request,
 		'restaurant/block_items.html',

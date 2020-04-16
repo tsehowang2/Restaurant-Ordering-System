@@ -75,6 +75,9 @@
                 success: function () {
                     $('#'+food_id+'_modal').modal('hide');
                     $('#addToCartSuccess').modal('show');
+                    var price = document.getElementById(food_id + "_total");
+                    var total = document.getElementById("total_cost");
+                    total.innerHTML = (parseFloat(total.innerHTML) + parseFloat(price.innerHTML)).toFixed(2);
                 }
             });
         }
