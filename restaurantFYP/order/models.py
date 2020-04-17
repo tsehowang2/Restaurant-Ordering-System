@@ -8,7 +8,7 @@ from restaurant.models import Food
 
 class Order (models.Model):
     order_id = models.AutoField(max_length=10, primary_key=True)
-    ordered_food = models.ManyToManyField(Food, through='Order_State')
+    ordered_food = models.ManyToManyField(Food, through='Order_State', blank=True, default=None)
     table_id = models.ForeignKey(User, on_delete=models.CASCADE)
     billed = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True, blank=True)
@@ -16,9 +16,24 @@ class Order (models.Model):
     def __str__(self):
         return str(self.order_id)
 
+    def ordered(self):
+        return ",".join([food.food_name for food in self.ordered_food.all()])
+
+    def total_price(self):
+        order = Order_State.objects.filter(order=self).exclude(state='cancelled')
+        total_price = 0
+        for order in order:
+            total_price += order.food.price
+        return total_price
+
+    def is_billed(self):
+        if self.billed == True:
+            return True
+        return False
+
 class Order_State(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    food = models.ForeignKey(Food, on_delete=models.CASCADE, default='')
+    food = models.ForeignKey(Food, on_delete=models.CASCADE, null=True)
     STATE_IN_CHOICE = (
         ('ordered', 'ordered'),
         ('making', 'making'),
@@ -43,14 +58,17 @@ class Cart_State(models.Model):
 
 class Order_State_Inline(admin.TabularInline):
     model = Order_State
-    extra = 1
-
+    extra = 0
+    
 class Cart_State_Inline(admin.TabularInline):
     model = Cart_State
-    extra = 1
+    extra = 0
 
 class Order_Admin(admin.ModelAdmin):
     inlines = (Order_State_Inline,)
+    list_display = ('table_id', 'ordered', 'total_price', 'is_billed')
+    list_filter = ('billed',)
+    ordering = ('billed', 'table_id',)
 
 class Cart_Admin(admin.ModelAdmin):
     inlines = (Cart_State_Inline,)
