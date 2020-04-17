@@ -24,7 +24,7 @@
             border-radius: 2px;
             padding: 16px;
             position: fixed;
-            z-index: 1;
+            z-index: 40;
             left: 50%;
             bottom: 60px;
             font-size: 17px;
@@ -32,8 +32,8 @@
 
             #snackbar.show {
             visibility: visible;
-            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 4.5s;
+            animation: fadein 0.5s, fadeout 0.5s 4.5s;
             }
 
             @-webkit-keyframes fadein {
@@ -68,30 +68,15 @@
                       type: 'POST',
                       url: 'getorderstate',
                       data: {
-                          csrfmiddlewaretoken: '',
+                          csrfmiddlewaretoken: '{{csrf_token}}',
                       },
                       success: function (data) {
                           if (JSON.stringify(data) != JSON.stringify(statelist)) {
-                              for (var i = 0; i < statelist.length; i++) {
-                                  
-                                  if (!statelist[i].str === data[i].str){
-                                      a = document.getElementsByClassName('food_button')[i];
-                                      a.removeAttribute('data-toggle');
-                                      a.removeAttribute('data-target');
-                                      if (data[i].equals('ordered') || data[i].equals('making')) {
-                                          a.setAttribute('class', 'col-5 food_button btn btn-danger');
-                                      }
-                                      else {
-                                          a.setAttribute('class', 'col-5 food_button btn btn-secondary disabled');
-                                          document.getElementById('returnButton_' + i).setAttribute('class', 'btn btn-secondary disabled');
-                                          document.getElementById('returnButton_' + i).removeAttribute('onclick');
-                                      }
-                                  }
-                              }
+                               window.location.href='{% url 'orders' %}';
                           }
                       }
-              });
-              }, 1000);
+                  });
+              }, 5000);
           }
       </script>
   </head>
@@ -107,7 +92,7 @@
 {% block footer %}
 
 {% endblock %}
-
+        <div id="snackbar">Error: food status<br />already changed</div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -116,17 +101,33 @@
     <script>
         function returnOrder(index) {
             $.ajax({
-
                 type: 'POST',
-                url: 'returnorder',
+                url: 'getorderstate',
                 data: {
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-                    index: index,
+                    csrfmiddlewaretoken: '{{csrf_token}}',
                 },
-                success: function () {
-                location.reload();
+                success: function (data) {
+                    if (JSON.stringify(data) == JSON.stringify(statelist)) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'returnorder',
+                            data: {
+                                csrfmiddlewaretoken: '{{csrf_token}}',
+                                index: index,
+                            },
+                            success: function () {
+                                location.reload();
+                            }
+                        });
+                    }
+                    else {
+                        var x = document.getElementById("snackbar");
+                        x.className = "show";
+                        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
+                    }
                 }
             });
+            
         }
     </script>
     </body>

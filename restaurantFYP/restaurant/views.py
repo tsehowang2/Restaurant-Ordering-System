@@ -77,6 +77,22 @@ def home(request):
     )
 
 @login_required(redirect_field_name='login')
+def billed(request):
+    try:
+        bill = Order.objects.get(table_id = auth.get_user(request), billed = False)
+        bill.billed = True
+        bill.save()
+    except Order.DoesNotExist:
+        pass
+    try:
+        cart = Cart.objects.filter(table_id = auth.get_user(request))
+        cart.delete()
+    except Cart.DoesNotExist:
+        pass
+    auth.logout(request)
+    return HttpResponseRedirect('login')
+
+@login_required(redirect_field_name='login')
 def block_menu(request):
     """Renders the home page."""
     #assert isinstance(request, HttpRequest)
