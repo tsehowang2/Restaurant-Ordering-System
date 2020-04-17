@@ -52,7 +52,8 @@ def block_home(request):
        hasOrder = True
        state = Order_State.objects.filter(order = bill)
        for state in state:
-           total += state.food.price
+           if state.state != 'cancelled':
+               total += state.food.price
     except Order.DoesNotExist:
         hasOrder = False
     args = {'hasOrder': hasOrder, 'total': total}
@@ -209,8 +210,8 @@ def block_items(request):
     """Renders the home page."""
     #assert isinstance(request, HttpRequest)
     category_id = request.POST.get('category_id')
-    foods = Food.objects.filter(category_id = category_id)
-    foods = Food.objects.filter(available = True)
+    print(category_id)
+    foods = Food.objects.filter(category_id = category_id, available = True)
     title = Category.objects.filter(category_id = category_id)
     cart = Cart.objects.filter(table_id = auth.get_user(request))
     total = 0

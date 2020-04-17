@@ -42,7 +42,7 @@
     <section>
 	<form type="hide" method="post" action="{% url 'items' %}" onclick="submit()">
         {% csrf_token %}
-	<input type="hidden" name="name" value="{{a.category_id}}"/>
+	<input type="hidden" name="category_id" value="{{a.category_id}}"/>
       <div id="{{a}}" class="image overflow-hidden d-flex align-items-center shadow long_bar" style="float: left; width: 48%; height: 150px; background-image: url({{ a.image.url }})">
         <h4 class="text transparent_bg text-light w-75 text-center shadow">{{ a }}</h4>
         <div class="top_right row">
@@ -56,7 +56,7 @@
 	<section>
 	<form method="post" action="{% url 'items' %}" onclick="submit()">
         {% csrf_token %}
-	<input type="hidden" name="name" value="{{a.category_id}}"/>
+	<input type="hidden" name="category_id" value="{{a.category_id}}"/>
     <div id="{{a}}" class="image overflow-hidden d-flex align-items-center shadow long_bar" style="float: right; width: 48%; height: 150px; background-image: url({{ a.image.url }})">
       <h4 class="text transparent_bg text-light w-75 text-center shadow">{{ a }}</h4>
       <div class="top_right row">
