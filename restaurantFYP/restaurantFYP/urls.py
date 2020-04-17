@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^home/menu/addtocart$', restaurant.views.add_to_cart, name='add_to_cart'),
     url(r'^removefromcart$', restaurant.views.remove_from_cart, name='remove_from_cart'),
     url(r'^proceedorder$', restaurant.views.proceed_order, name='proceed_order'),
+    url(r'^returnorder$', restaurant.views.return_order, name='return_order'),
 	#url(r'^services$', restaurant.views.services, name='services'),
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about$', app.views.about, name='about'),

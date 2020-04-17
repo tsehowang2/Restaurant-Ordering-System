@@ -25,6 +25,49 @@
     filter: invert(100%) sepia(95%) saturate(18%) hue-rotate(270deg) brightness(105%) contrast(105%);
     width: 100%
 }
+{% if proceed_order %}
+      #snackbar {
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #fff;
+      color: #333;
+      text-align: center;
+      border-radius: 2px;
+      padding: 16px;
+      position: fixed;
+      z-index: 1;
+      left: 50%;
+      bottom: 60px;
+      font-size: 17px;
+    }
+
+    #snackbar.show {
+      visibility: visible;
+      -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    @-webkit-keyframes fadein {
+      from {bottom: 0; opacity: 0;} 
+      to {bottom: 60px; opacity: 1;}
+    }
+
+    @keyframes fadein {
+      from {bottom: 0; opacity: 0;}
+      to {bottom: 60px; opacity: 1;}
+    }
+
+    @-webkit-keyframes fadeout {
+      from {bottom: 60px; opacity: 1;} 
+      to {bottom: 0; opacity: 0;}
+    }
+
+    @keyframes fadeout {
+      from {bottom: 60px; opacity: 1;}
+      to {bottom: 0; opacity: 0;}
+    }
+{% endif %}
 </style>
 </head>
 <body class="bg-dark">
@@ -33,25 +76,33 @@
 	{% endblock %}
 		
 	{% block content %}
-		
+	
 	{% endblock %}
 
 	{% block footer %}
 
 	{% endblock %}
-<!-- Optional JavaScript --> 
-<!-- jQuery first, then Popper.js, then Bootstrap JS --> 
-<script type="text/javascript">
-var logoutbutton;
-function logout(){
-document.getElementById('bill_form').submit('Logout');
-}
-window.onload = function(){
-	logoutbutton = document.getElementById('bill_form');
-}
-</script>
+    {% if proceed_order %}
+    <div id="snackbar">Foords ordered</div>
+    {% endif %}
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> 
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script>
+    //var logoutbutton;
+    function logout(){
+    document.getElementById('bill_form').submit('Logout');
+    }
+    window.onload = function(){
+        //logoutbutton = document.getElementById('bill_form');
+        {% if proceed_order %}
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        {% endif %}
+    }
+</script>
 </body>
 </html>

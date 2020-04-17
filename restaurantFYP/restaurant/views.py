@@ -45,14 +45,17 @@ def logout(request):
 def block_home(request):
     """Renders the home page."""
     hasOrder = False
+    total = 0
     try:
        bill = Order.objects.get(table_id = auth.get_user(request), billed = False)
        hasOrder = True
+       state = Order_State.objects.filter(order = bill)
+       for state in state:
+           total += state.food.price
     except Order.DoesNotExist:
         hasOrder = False
-    print(hasOrder)
-    args = {'hasOrder': hasOrder}
-    print(args)
+    args = {'hasOrder': hasOrder, 'total': total}
+    #print(args)
     return render(
         request,
         'restaurant/block_home.html',
@@ -109,17 +112,21 @@ def menu(request):
 def block_orders(request):
     """Renders the home page."""
     #assert isinstance(request, HttpRequest)
-    bill = Order.objects.get(table_id = auth.get_user(request), billed = False),
+    bill = Order.objects.get(table_id = auth.get_user(request), billed = False)
     foodlist = []
-    for table in bill:
-        state = Order_State.objects.filter(order = table)
-        for state in state:
-            foodlist.append(state)
-    context = {'foodlist' : foodlist}
+    total = 0
+    state = Order_State.objects.filter(order = bill)
+    #print(state)
+    #print(state[0].state)
+    for state in state:
+        foodlist.append(state)
+        if state.state != 'cancelled':
+            total += state.food.price
+    context = {'foodlist' : foodlist, 'total': total}
     return render(
         request,
         'restaurant/block_orders.html',
-        context
+        context,
     )
 
 @login_required(redirect_field_name='login')
@@ -214,8 +221,8 @@ def items(request):
 def add_to_cart(request):
     food_id = request.POST.get('food_id')
     quantity = int(request.POST.get('quantity'))
-    print(food_id)
-    print(quantity)
+    #print(food_id)
+    #print(quantity)
     food = Food.objects.get(food_id=food_id)
     try:
         cart = Cart.objects.get(table_id=auth.get_user(request))
@@ -247,8 +254,43 @@ def proceed_order(request):
                 order = Order.objects.get(table_id = auth.get_user(request), billed = False)
             except Order.DoesNotExist:
                 order = Order.objects.create(table_id=auth.get_user(request))
-            print(order)
-            order_state = Order_State.objects.create(order=order, food=food, state='uncooked')
+            #print(order)
+            order_state = Order_State.objects.create(order=order, food=food, state='ordered')
     cart.delete()
+    #"""Renders the home page."""
+    proceed_order = True
+    hasOrder = False
+    total = 0
+    try:
+       bill = Order.objects.get(table_id = auth.get_user(request), billed = False)
+       hasOrder = True
+       state = Order_State.objects.filter(order = bill)
+       for state in state:
+           total += state.food.price
+    except Order.DoesNotExist:
+        hasOrder = False
+    args = {'hasOrder': hasOrder, 'total': total, 'proceed_order': proceed_order}
+    #print(args)
+    return render(
+        request,
+        'restaurant/block_home.html',
+        args,
+    )
 
-    return HttpResponseRedirect('home')
+@login_required(redirect_field_name='login')
+def return_order(request):
+    index = int(request.POST.get('index'))
+    bill = Order.objects.get(table_id = auth.get_user(request), billed = False)
+    tryLoop = Order_State.objects.filter(order = bill)
+    counter = 0;
+    for stuff in tryLoop:
+        #print("targeted index: ", index, " | ", counter, " :current")
+        #print(stuff)
+        if counter == index:
+            if stuff.state == 'ordered' or stuff.state == 'making':
+                stuff.state = 'cancelled'
+                stuff.save()
+            break
+        else:
+            counter = counter + 1
+    return HttpResponse('')

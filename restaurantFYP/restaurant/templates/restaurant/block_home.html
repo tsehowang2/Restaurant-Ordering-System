@@ -45,7 +45,7 @@
       </div>
     </div>
   </div>
-</div>
+</a>
 <a {% if hasOrder %} href="{% url 'orders' %}" {% endif %}>
   <div id="Orders" style="margin-right: 6%; width: 40%; float: right">
     <div class="btn btn-info rounded{% if not hasOrder %} disabled {% endif %}" style="margin: auto; width: 100%">
@@ -158,7 +158,7 @@
 <section id="page_footer" class="fixed-bottom">
   <div class="row m-2">
     <div class="col-5 rounded-pill" style="background: rgba(0, 0, 0, 0.5)">
-      <p class="w-100 text-left text-light"><span>Price: $</span><span id="total_cost">??</span></p>
+      <p class="w-100 text-left text-light"><span>Bill: $</span><span id="total_cost">{{ total|floatformat:2 }}</span></p>
     </div>
     <div class="col-5 offset-2 rounded-pill" style="background: rgba(0, 0, 0, 0.5)">
       <p class="w-100 text-right text-light"><span>Table: </span><span id="table_id">
@@ -167,4 +167,4 @@
     </div>
   </div>
 </section>
-{% endblock%}
+{% endblock %}

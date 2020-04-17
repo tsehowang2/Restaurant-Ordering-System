@@ -20,11 +20,13 @@ class Order_State(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     food = models.ForeignKey(Food, on_delete=models.CASCADE, default='')
     STATE_IN_CHOICE = (
-        ('uncooked', 'uncooked'),
-        ('cooked', 'cooked'),
+        ('ordered', 'ordered'),
+        ('making', 'making'),
+        ('finished', 'finished'),
+        ('served', 'served'),
         ('cancelled', 'cancelled'),
     )
-    state = models.CharField(max_length=10, choices=STATE_IN_CHOICE, default='uncooked')
+    state = models.CharField(max_length=10, choices=STATE_IN_CHOICE, default='ordered')
 
 class Cart(models.Model):
     cart_id = models.AutoField(max_length=10, primary_key=True)
