@@ -43,11 +43,11 @@ class Cart_State(models.Model):
 
 class Order_State_Inline(admin.TabularInline):
     model = Order_State
-    extra = 1
+    extra = 0
 
 class Cart_State_Inline(admin.TabularInline):
     model = Cart_State
-    extra = 1
+    extra = 0
 
 class Order_Admin(admin.ModelAdmin):
     inlines = (Order_State_Inline,)

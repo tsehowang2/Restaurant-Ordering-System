@@ -8,9 +8,10 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.core.urlresolvers import reverse
-import datetime
+import itertools
+import json
 
 # Create your views here.
 def index(request):
@@ -294,3 +295,12 @@ def return_order(request):
         else:
             counter = counter + 1
     return HttpResponse('')
+
+@login_required(redirect_field_name='login')
+def get_order_state(request):
+    bill = Order.objects.filter(table_id = auth.get_user(request), billed = False)
+    lists = Order_State.objects.filter(order = bill).only('state')
+    result = []
+    for state in lists:
+        result.append(state.state)
+    return JsonResponse(result, safe=False)

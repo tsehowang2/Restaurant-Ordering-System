@@ -22,8 +22,8 @@
       <div class="m-2">
         <h6 class="card-title">{{a.food.food_name}}<br />Price: {{a.food.price}}</h6>
         <div class="row">
-          <p class="col-6">{{a.state}}</p>
-          <p class="col-5 btn {%if a.state == 'ordered' or a.state == 'making' %}btn-danger{% else %}btn-secondary disabled{% endif %}" data-toggle="modal" data-target="#modal_{{ forloop.counter0 }}">Return</p>
+          <p class="col-6 food_state">{{a.state}}</p>
+          <p class="col-5 food_button btn {%if a.state == 'ordered' or a.state == 'making' %}btn-danger{% else %}btn-secondary disabled{% endif %}" data-toggle="modal" data-target="#modal_{{ forloop.counter0 }}">Return</p>
         </div>
       </div>
     </div>
@@ -51,7 +51,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger" onclick="returnOrder({{forloop.counter0}})">Return item</button>
+        <button type="button" id="returnButton_{{forloop.counter0}}" class="btn btn-danger" onclick="returnOrder({{forloop.counter0}})">Return item</button>
       </div>
     </div>
   </div>
