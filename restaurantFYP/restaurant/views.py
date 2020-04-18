@@ -23,19 +23,31 @@ def index(request):
 
 
 def login(request):
-    if request.method == 'POST': 
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-    
+    if request.method == 'GET':
+        username = request.GET.get('username')
+        password = request.GET.get('password')
+
         user = auth.authenticate(username=username, password=password)
 
         if user is not None:
             auth.login(request, user)
-            return redirect("home")
+            return redirect('index')
         else:
-            return redirect('login')
+            return HttpResponse('<h1>Please scan QR code in order to use our website</h1>')
+
+    #elif request.method == 'POST': 
+    #    username = request.POST.get('username')
+    #    password = request.POST.get('password')
+    #
+    #    user = auth.authenticate(username=username, password=password)
+    #
+    #    if user is not None:
+    #        auth.login(request, user)
+    #        return redirect("home")
+    #    else:
+    #        return redirect('login')
     else:
-        return render(request, 'restaurant/login.html',)
+        return HttpResponse('Please scan QR code in order to use our website')
 
 @login_required(redirect_field_name='login')
 def logout(request):
