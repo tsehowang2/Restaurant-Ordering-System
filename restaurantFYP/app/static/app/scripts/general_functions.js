@@ -1,4 +1,5 @@
-function changeModalQuantity(id, i, price) {
+
+/*function changeModalQuantity(id, i, price) {
     var qty = document.getElementById(id + "_modalCount");
     var qtyvalue = parseInt(qty.getAttribute("value"));
     console.log(qtyvalue+", "+i);
@@ -16,4 +17,4 @@ function changeModalQuantity(id, i, price) {
 		qty.setAttribute("value", qtyvalue + i);
 	}
 }
-//why this page doesn't changed?
+//why this page doesn't changed?*/
