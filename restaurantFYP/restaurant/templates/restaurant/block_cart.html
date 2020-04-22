@@ -81,10 +81,10 @@
         <form class="col-5" type="hide" style="padding-left: 0px;padding-right: 0px;" action="{% url 'items' %}" method="post" onclick="submit();">
             {% csrf_token %}
             <input type="hidden" name="category_id" value="{{category_id}}" />
-            <p class="btn btn-warning rounded-pill w-100 h6" id="exit_button">Back1</p>
+            <p class="btn btn-warning rounded-pill w-100 h6" id="exit_button">Back</p>
        </form>
       {% else %}
-        <a href="{% url 'menu' %}" class="col-5 btn btn-warning rounded-pill w-100 h6" id="exit_button">Back2</a>
+        <a href="{% url 'menu' %}" class="col-5 btn btn-warning rounded-pill w-100 h6" id="exit_button">Back</a>
       {% endif %}
       <a href="proceedorder" class="col-5 offset-2 btn btn-info  rounded-pill  w-100 h6" id="proceed_button">Order now</a>
     </div>

@@ -329,7 +329,7 @@ def return_order(request):
 @login_required(redirect_field_name='login')
 def get_order_state(request):
     bill = Order.objects.filter(table_id = auth.get_user(request), billed = False)
-    lists = Order_State.objects.filter(order = bill).only('state')
+    lists = Order_State.objects.filter(order = bill[0]).only('state')
     result = []
     for state in lists:
         result.append(state.state)
