@@ -1,1 +1,11 @@
-django >=1.9, <2
+django
+Django
+PIL
+Pillow
+pip
+pip
+pkg_resources
+pytz
+pytz
+setuptools
+setuptools
