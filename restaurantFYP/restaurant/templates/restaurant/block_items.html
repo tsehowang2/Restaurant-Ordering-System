@@ -52,7 +52,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="changeModalQuantity('{{a.food_id}}', 0, '{{a.price}}')">Cancel</button>
         <input type="hidden" name="food_id" value="{{a.food_id}}">
-        <button type="button" class="btn btn-primary" onclick="addThis('{{a.food_id}}_form', '{{a.food_id}}', '{{a.food_id}}_modalCount');">Add to cart</button>
+        <button type="button" class="btn btn-primary" onclick="addThis('{{a.food_id}}_form', '{{a.food_id}}', '{{a.food_id}}_modalCount'); changeModalQuantity('{{a.food_id}}', 0, '{{a.price}}')">Add to cart</button>
       </div>
     </div>
   </div>

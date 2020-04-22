@@ -256,12 +256,15 @@ def add_to_cart(request):
     food = Food.objects.get(food_id=food_id)
     try:
         cart = Cart.objects.get(table_id=auth.get_user(request))
+        cart_s = Cart_State.objects.filter(cart = cart)
+        if cart_s.count() + quantity > 30:
+            return HttpResponse('Failure')
     except Cart.DoesNotExist:
         cart = Cart.objects.create(table_id=auth.get_user(request))
     for x in range(quantity):
         cart_state = Cart_State.objects.create(cart=cart, food=food)
 
-    return HttpResponse('')
+    return HttpResponse('success')
 
 @login_required(redirect_field_name='login')
 def remove_from_cart(request):

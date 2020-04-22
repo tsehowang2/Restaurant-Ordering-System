@@ -51,6 +51,22 @@
     </div>
   </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="addToCartFailure" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content bg-warning">
+      <div class="modal-header border-dark">
+        <h5 class="modal-title" id="exampleModalLongTitle">You cannot hold more than 30 food</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer border-secondary">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 	
 	<div class="bottom"></div>
     <!-- Optional JavaScript -->
@@ -69,12 +85,18 @@
                     quantity: qty,
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
                 },
-                success: function () {
-                    $('#'+food_id+'_modal').modal('hide');
-                    $('#addToCartSuccess').modal('show');
-                    var price = document.getElementById(food_id + "_total");
-                    var total = document.getElementById("total_cost");
-                    total.innerHTML = (parseFloat(total.innerHTML) + parseFloat(price.innerHTML)).toFixed(2);
+                success: function (response) {
+                    if (response == 'success') {
+                        $('#' + food_id + '_modal').modal('hide');
+                        $('#addToCartSuccess').modal('show');
+                        var price = document.getElementById(food_id + "_total");
+                        var total = document.getElementById("total_cost");
+                        total.innerHTML = (parseFloat(total.innerHTML) + parseFloat(price.innerHTML)).toFixed(2);
+                    }
+                    else {
+                        $('#' + food_id + '_modal').modal('hide');
+                        $('#addToCartFailure').modal('show');
+                    }
                 }
             });
         }
