@@ -74,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = 'restaurantFYP.wsgi.application'
+WSGI_APPLICATION = 'restaurantFYP.wsgi.application'
 
 
 # Database
