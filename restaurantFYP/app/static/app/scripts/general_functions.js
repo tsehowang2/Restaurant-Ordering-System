@@ -16,3 +16,4 @@ function changeModalQuantity(id, i, price) {
 		qty.setAttribute("value", qtyvalue + i);
 	}
 }
+//why this page doesn't changed?
