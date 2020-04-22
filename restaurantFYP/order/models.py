@@ -7,7 +7,7 @@ import datetime
 from restaurant.models import Food
 
 class Order (models.Model):
-    order_id = models.AutoField(max_length=10, primary_key=True)
+    order_id = models.AutoField(primary_key=True)
     ordered_food = models.ManyToManyField(Food, through='Order_State', blank=True, default=None)
     table_id = models.ForeignKey(User, on_delete=models.CASCADE)
     billed = models.BooleanField(default=False)
@@ -44,7 +44,7 @@ class Order_State(models.Model):
     state = models.CharField(max_length=10, choices=STATE_IN_CHOICE, default='ordered')
 
 class Cart(models.Model):
-    cart_id = models.AutoField(max_length=10, primary_key=True)
+    cart_id = models.AutoField(primary_key=True)
     carted_food = models.ManyToManyField(Food, through='Cart_State')
     table_id = models.ForeignKey(User, on_delete=models.CASCADE)
 

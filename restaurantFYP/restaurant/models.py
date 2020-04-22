@@ -4,7 +4,7 @@ from django.contrib import admin
 # Create your models here.
 
 class Category(models.Model):
-    category_id = models.AutoField(max_length=10, primary_key=True)
+    category_id = models.AutoField(primary_key=True)
     category_name = models.CharField(unique=True, max_length=20)
     image = models.ImageField(upload_to='menu/category')
     

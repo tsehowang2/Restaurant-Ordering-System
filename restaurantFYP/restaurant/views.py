@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 import itertools
 import json
 
@@ -296,7 +296,8 @@ def proceed_order(request):
        hasOrder = True
        state = Order_State.objects.filter(order = bill)
        for state in state:
-           total += state.food.price
+           if state.state != 'cancelled':
+               total += state.food.price
     except Order.DoesNotExist:
         hasOrder = False
     args = {'hasOrder': hasOrder, 'total': total, 'proceed_order': proceed_order}
@@ -328,7 +329,7 @@ def return_order(request):
 @login_required(redirect_field_name='login')
 def get_order_state(request):
     bill = Order.objects.filter(table_id = auth.get_user(request), billed = False)
-    lists = Order_State.objects.filter(order = bill).only('state')
+    lists = Order_State.objects.filter(order = bill[0]).only('state')
     result = []
     for state in lists:
         result.append(state.state)
