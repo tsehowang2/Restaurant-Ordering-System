@@ -14,18 +14,23 @@
 		  .image{height: 220px;}
 		  .opa{background: linear-gradient(90deg, rgba(248,249,250,0), rgba(248,249,250,1));}
 		  .transparent_bg{background: rgba(0, 0, 0, 0.5)}
+          #empty {  position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);}
 	  </style>
       {% load static %}
 	  <script type="text/javascript" src="{% static 'app/scripts/general_functions.js' %}"></script>
   </head>
-	<body class="bg-dark">
+	<body class="bg-dark position-relative">
+    <h1 class="d-none text-secondary" id="empty">EMPTY</h1>
 	{% block header %}
 	{% endblock %}
 	{% block content %}
 	{% endblock %}
 	{% block footer %}
 	{% endblock %}
-
+        
 <!-- Modal -->
 <div class="modal fade" id="removeFromCartSuccess" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -42,12 +47,74 @@
     </div>
   </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="proceedOrderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Proceed order now?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary w-25 float-left" data-dismiss="modal">Close</button>
+        <a href="proceedorder" class="btn btn-primary w-25 float-right">Proceed</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="clearCartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Are you sure you want to clear the cart?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary w-25 float-left" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger w-25 float-right" onclick="returnThis('ALL', 0)">Clear</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="emptyCartAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">The cart is empty</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary w-25 float-left" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
     <!-- Optional JavaScript --> 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script type="text/javascript">
+        function setCartStatus(){
+            if(document.getElementById('maincontainer').innerText!="") {
+                document.getElementById("clear_button").setAttribute("data-target", "#clearCartModal");
+                document.getElementById("proceed_button").setAttribute("data-target", "#proceedOrderModal");
+                document.getElementById("empty").setAttribute("class", "d-none text-secondary");
+            }
+            else {
+                document.getElementById("clear_button").setAttribute("data-target", "#emptyCartAlert");
+                document.getElementById("proceed_button").setAttribute("data-target", "#emptyCartAlert");
+                document.getElementById("empty").setAttribute("class", "text-secondary");
+            }
+        }
         function calcTotal() {
             var allPrices = document.getElementsByClassName("price");
             var total = 0;
@@ -66,19 +133,26 @@
                 url: 'removefromcart',
                 data: {
                     food_id: food_id,
-                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                    csrfmiddlewaretoken: '{{csrf_token}}'  //$('input[name=csrfmiddlewaretoken]').val()
                 },
                 success: function () {
-                    $('#return_'+index).modal('hide');
-                    $('#removeFromCartSuccess').modal('show');
-                    var child = document.getElementById('content_' + index);
-                    child.parentNode.removeChild(child);
-                    calcTotal();
+                    if (food_id == 'ALL') {
+                        window.location.href = "{% url 'menu' %}";
+                    }
+                    else {
+                        $('#return_' + index).modal('hide');
+                        $('#removeFromCartSuccess').modal('show');
+                        var child = document.getElementById('object_' + index);
+                        child.parentNode.removeChild(child);
+                        calcTotal();
+                        setCartStatus();
+                    }
                 }
             });
         }
         window.onload = function () {
             calcTotal();
+            setCartStatus();
         }
     </script>
   </body>

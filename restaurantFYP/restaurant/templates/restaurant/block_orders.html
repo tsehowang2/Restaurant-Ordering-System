@@ -6,9 +6,7 @@
     <div class="float-left align-bottom" style="width: 47%">
       <h4 id="header_title" class="text-light float-left" style="margin-left: 10px; margin-top: 12px;">Orders</h4>
     </div>
-    <div class="float-right" id="return_button" style="width: 47%"> <a href="{% url 'home' %}">
-      <p class="col btn btn-warning rounded-pill float-right m-2">Back</p>
-      </a> </div>
+    
   </div>
 </section>
 {% endblock %}
@@ -75,5 +73,8 @@
         </span></p>
     </div>
   </div>
+    <div class="row justify-content-between m-2">
+    <a class="col-5 btn btn-warning rounded-pill w-100 h6 shadow-sm" href="{% url 'home' %}">Back</a>
+    </div>
 </section>
 {% endblock %}

@@ -13,8 +13,9 @@
 
 {% block content %}
 <section id="maincontainer" style="margin-top: 60px; margin-bottom: 120px">
+    
 {% for food in cart %}
-
+    <section id="object_{{forloop.counter0}}">
     <form action={% url 'remove_from_cart' %} method="post">
     {% csrf_token %}
     <!-- Modal -->
@@ -60,6 +61,7 @@
       </div>
     </div>
   </div>
+    </section>
   {% endfor %} </section>
 {% endblock %}
 
@@ -78,15 +80,16 @@
     </div>
     <div class="row justify-content-between m-2">
       {%if category_id %}
-        <form class="col-5" type="hide" style="padding-left: 0px;padding-right: 0px;" action="{% url 'items' %}" method="post" onclick="submit();">
+        <form class="col-4" type="hide" style="padding-left: 0px;padding-right: 0px;" action="{% url 'items' %}" method="post" onclick="submit();">
             {% csrf_token %}
             <input type="hidden" name="category_id" value="{{category_id}}" />
             <p class="btn btn-warning rounded-pill w-100 h6" id="exit_button">Back</p>
        </form>
       {% else %}
-        <a href="{% url 'menu' %}" class="col-5 btn btn-warning rounded-pill w-100 h6" id="exit_button">Back</a>
+        <a href="{% url 'menu' %}" class="col-4 btn btn-warning rounded-pill w-100 h6" id="exit_button">Back</a>
       {% endif %}
-      <a href="proceedorder" class="col-5 offset-2 btn btn-info  rounded-pill  w-100 h6" id="proceed_button">Order now</a>
+        <p class="col-4 btn btn-danger rounded-pill w-100 h6" id="clear_button" data-toggle="modal" data-target="#clearCartModal">Clear</p>
+      <p class="col-4 btn btn-info  rounded-pill w-100 h6" id="proceed_button" data-toggle="modal" data-target="#proceedOrderModal">Order now</p>
     </div>
   </section>
 </section>

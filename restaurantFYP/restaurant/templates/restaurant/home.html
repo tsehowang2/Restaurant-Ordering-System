@@ -74,7 +74,7 @@
 	{% block header %}
 	
 	{% endblock %}
-		
+
 	{% block content %}
 	
 	{% endblock %}
@@ -83,7 +83,13 @@
 
 	{% endblock %}
     {% if proceed_order %}
-    <div id="snackbar">Foods ordered</div>
+    <div id="snackbar">
+        {% if proceed_order == 'proceed_order' %}
+        Foods ordered
+        {% else %}
+        The cart is empty
+        {% endif %}
+    </div>
     {% endif %}
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
