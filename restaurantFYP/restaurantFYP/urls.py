@@ -34,8 +34,9 @@ urlpatterns = [
     url(r'^returnorder$', restaurant.views.return_order, name='return_order'),
     url(r'^getorderstate$', restaurant.views.get_order_state, name='get_order_state'),
     url(r'^billed$', restaurant.views.billed, name='billed'),
-    url(r'^contact$', app.views.contact, name='contact'),
-    url(r'^about$', app.views.about, name='about'),
+    url(r'^services/add_water$', restaurant.views.service_add_water, name='service_add_water'),
+    url(r'^services/clean_table$', restaurant.views.service_clean_table, name='service_clean_table'),
+    url(r'^services/baby_chair$', restaurant.views.service_baby_chair, name='service_baby_chair'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
