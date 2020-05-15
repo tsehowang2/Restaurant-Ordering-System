@@ -84,7 +84,6 @@ def home(request):
         request,
         'restaurant/home.html',
         {
-            'title':'Home Page',
 			'header':'Welcome',
         }
     )
