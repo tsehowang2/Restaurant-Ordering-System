@@ -78,7 +78,6 @@
         function changeModalQuantity(id, i, price) {
             var qty = document.getElementById(id + "_modalCount");
             var qtyvalue = parseInt(qty.getAttribute("value"));
-            console.log(qtyvalue+", "+i);
             if (i == '0') {
                 qty.setAttribute("class", "text-dark text-center");
                 document.getElementById(id + "_total").innerHTML = parseFloat((price)).toFixed(1);
@@ -117,6 +116,9 @@
                     }
                 }
             });
+        }
+        window.onload = function () {
+            check_bill('{{csrf_token}}');
         }
     </script>
   </body>

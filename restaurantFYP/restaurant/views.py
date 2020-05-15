@@ -21,7 +21,6 @@ def index(request):
         'restaurant/index.html',
     )
 
-
 def login(request):
     if request.method == 'GET':
         username = request.GET.get('username')
@@ -31,6 +30,10 @@ def login(request):
 
         if user is not None:
             auth.login(request, user)
+            try:
+                order = Order.objects.get(table_id = auth.get_user(request), billed = False)
+            except Order.DoesNotExist:
+                order = Order.objects.create(table_id=auth.get_user(request))
             return redirect('index')
         else:
             return HttpResponse('<h1>Please scan QR code in order to use our website</h1>')
@@ -51,8 +54,12 @@ def login(request):
 
 @login_required(redirect_field_name='login')
 def logout(request):
-    auth.logout(request)
-    return HttpResponseRedirect('login')
+    try:
+        order = Order.objects.get(table_id = auth.get_user(request), billed = False)
+        return redirect('home')
+    except Order.DoesNotExist:
+        auth.logout(request)
+        return HttpResponseRedirect('thankyou')
 
 @login_required(redirect_field_name='login')
 def block_home(request):
@@ -61,15 +68,14 @@ def block_home(request):
     total = 0
     try:
        bill = Order.objects.get(table_id = auth.get_user(request), billed = False)
-       hasOrder = True
        state = Order_State.objects.filter(order = bill)
        for state in state:
            if state.state != 'cancelled':
                total += state.food.price
+               hasOrder = True
     except Order.DoesNotExist:
         hasOrder = False
     args = {'hasOrder': hasOrder, 'total': total}
-    #print(args)
     return render(
         request,
         'restaurant/block_home.html',
@@ -145,8 +151,6 @@ def block_orders(request):
     foodlist = []
     total = 0
     state = Order_State.objects.filter(order = bill)
-    #print(state)
-    #print(state[0].state)
     for state in state:
         foodlist.append(state)
         if state.state != 'cancelled':
@@ -225,7 +229,6 @@ def block_items(request):
     """Renders the home page."""
     #assert isinstance(request, HttpRequest)
     category_id = request.POST.get('category_id')
-    print(category_id)
     foods = Food.objects.filter(category_id = category_id, available = True)
     title = Category.objects.filter(category_id = category_id)
     cart = Cart.objects.filter(table_id = auth.get_user(request))
@@ -254,8 +257,6 @@ def items(request):
 def add_to_cart(request):
     food_id = request.POST.get('food_id')
     quantity = int(request.POST.get('quantity'))
-    #print(food_id)
-    #print(quantity)
     food = Food.objects.get(food_id=food_id)
     try:
         cart = Cart.objects.get(table_id=auth.get_user(request))
@@ -299,7 +300,6 @@ def proceed_order(request):
                 order = Order.objects.get(table_id = auth.get_user(request), billed = False)
             except Order.DoesNotExist:
                 order = Order.objects.create(table_id=auth.get_user(request))
-            #print(order)
             order_state = Order_State.objects.create(order=order, food=food, state='ordered')
     cart.delete()
     #"""Renders the home page."""
@@ -315,7 +315,6 @@ def proceed_order(request):
     except Order.DoesNotExist:
         hasOrder = False
     args = {'hasOrder': hasOrder, 'total': total, 'proceed_order': proceed_order}
-    #print(args)
     return render(
         request,
         'restaurant/block_home.html',
@@ -361,3 +360,40 @@ def service_clean_table(request):
 def service_baby_chair(request):
     print("Table", auth.get_user(request), "requested for baby chair")
     return HttpResponse('')
+
+@login_required(redirect_field_name='login')
+def bill_page(request):
+    table_id = auth.get_user(request)
+    bill = Order.objects.get(table_id = auth.get_user(request), billed = False)
+    state = Order_State.objects.filter(order = bill)
+    id = bill.order_id
+    time = bill.timestamp
+    result = []
+    total = 0;
+    for state in state:
+        if state.state != "cancelled":
+            result.append(state)
+            total += state.food.price
+    args = {'result': result, 'id': id, 'total': total}
+    return render(
+        request,
+        'restaurant/bill.html',
+        args,
+    )
+
+@login_required(redirect_field_name='login')
+def force_logout(request):
+    """Renders the home page."""
+    try:
+       bill = Order.objects.get(table_id = auth.get_user(request), billed = False)
+       hasOrder = 'true'
+    except Order.DoesNotExist:
+        hasOrder = 'false'
+    return HttpResponse(hasOrder)
+
+def thankyou(request):
+    """Renders the home page."""
+    return render(
+        request,
+        'restaurant/thankyou.html',
+    )

@@ -56,6 +56,8 @@
             to {bottom: 0; opacity: 0;}
             }
 	  </style>
+      {% load static %}
+	  <script type="text/javascript" src="{% static 'app/scripts/general_functions.js' %}"></script>
       <script>
           var statelist = [];
           window.onload = function () {
@@ -77,6 +79,7 @@
                       }
                   });
               }, 5000);
+          check_bill('{{csrf_token}}');
           }
       </script>
   </head>

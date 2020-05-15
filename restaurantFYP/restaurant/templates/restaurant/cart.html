@@ -154,6 +154,7 @@
         window.onload = function () {
             calcTotal();
             setCartStatus();
+        check_bill('{{csrf_token}}');
         }
     </script>
   </body>

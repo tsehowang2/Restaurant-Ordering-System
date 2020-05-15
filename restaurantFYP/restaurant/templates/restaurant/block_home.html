@@ -118,8 +118,9 @@
 </a>
 <form id="bill_form" method="POST" action="billed">
 {% csrf_token %}
-  <div value="Logout" id="Bill" style="margin-right: 6%; margin-top: 20px; width: 40%; float: right" onclick="logout();">
-    <div style="margin: auto; width: 100%" class="btn btn-info rounded">
+    <a {% if hasOrder %} href="{% url 'bill' %}" {% endif %}>
+  <div value="Logout" id="Bill" style="margin-right: 6%; margin-top: 20px; width: 40%; float: right">
+    <div style="margin: auto; width: 100%" class="btn btn-info rounded {% if not hasOrder %} disabled {% endif %}">
       <div style="margin: auto; width: 80%; padding-top:20px">
         <svg viewBox="0 0 512 512" class="logo">
           <path d="M444.862,109.779L338.221,3.138C336.29,1.201,333.621,0,330.667,0h-224C83.146,0,64,19.135,64,42.667v426.667
@@ -146,6 +147,7 @@
       </div>
     </div>
   </div>
+        </a>
 </form>
  {% else %}
     <p>You are not logged in</p>

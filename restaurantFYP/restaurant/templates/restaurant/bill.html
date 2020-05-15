@@ -1,0 +1,73 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, autoRotate:disabled">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Bill</title>
+	  <style>
+		  .gap{margin-top: 30px;}
+		  .bottom{margin-bottom: 150px;} 
+		  .image{height: 220px;}
+		  .opa{background: linear-gradient(90deg, rgba(248,249,250,0), rgba(248,249,250,1));}
+		  .transparent_bg{background: rgba(0, 0, 0, 0.5)}
+          #empty {  position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);}
+	  </style>
+      {% load static %}
+	  <script type="text/javascript" src="{% static 'app/scripts/general_functions.js' %}"></script>
+  </head>
+<body class="bg-dark">
+<section id="page_header" class="fixed-top">
+  <div class="w-100 bg-secondary" style="height: 50px">
+    <div class="float-left align-bottom" style="width: 47%">
+      <h4 id="header_title" class="text-light float-left" style="margin-left: 10px; margin-top: 12px;">Bill</h4>
+    </div>
+    
+  </div>
+</section>
+<section id="main_container" style="margin-top: 60px; padding-left: 10px; padding-right: 10px">
+    <div class="m-4 p-4 bg-light">
+        <h2 class="text-center p-4">This Restaurant</h2>
+        <div class="text-center">Table ID: {{user.username}}</div>
+        <div class="text-center">Order ID: {{id}}</div>
+        <hr />
+    
+        {% for state in result %}
+        <div class="row">
+            <p class="col-8 text-left" style="word-break: break-all">{{ state.food.food_name }}</p>
+            <p class="col-4 text-right">$ {{ state.food.price }}</p>
+        </div>
+        {% endfor %}
+        <hr/>
+        <div class="row">
+            <p class="col text-left">Total</p>
+            <p class="col text-right">$ {{total}}</p>
+        </div>
+    </div>
+    <div style="display: block; clear: both; margin-bottom: 80px"></div>
+</section>
+
+<section id="page_footer" class="fixed-bottom">
+    <div class="row justify-content-between m-2">
+    <a class="col-5 btn btn-warning rounded-pill w-100 h6 shadow-sm" href="{% url 'home' %}">Back</a>
+    </div>
+</section>
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <script>
+      window.onload = function () {
+          check_bill('{{csrf_token}}');
+      }
+      
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>You logged out</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<style>
+body {
+width: 100%;
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;}
+
+@keyframes popup {
+0% {opacity: 0}
+100% {opacity: 1}
+}
+
+@keyframes godown {
+0% {transform: translateY(-30px)}
+100% {transform: translateY(0px)}
+}
+	
+    #txt {animation: popup 1s, godown 1s}
+</style>
+</head>
+<body class="bg-info" style="position: relative">
+    <h1 id="txt" class="text-light text-center" style="font-size: 400%; position: absolute; top: 40%">Thank you!</h1>
+    <p class="text-center" style="position: absolute; top: 60%"><img src="/media/bye.gif" style="width: 70%" /></p><!--終極hardcode-->
+
+ </body>   
+</html>

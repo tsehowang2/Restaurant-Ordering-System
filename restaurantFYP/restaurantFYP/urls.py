@@ -22,11 +22,13 @@ urlpatterns = [
     url(r'^$', restaurant.views.index, name='index'),
     url(r'^login$', restaurant.views.login, name='login'),
     url(r'^logout$', restaurant.views.logout, name='logout'),
+    url(r'^thankyou$', restaurant.views.thankyou, name='thankyou'),
 	url(r'^home$', restaurant.views.block_home, name='home'),
 	url(r'^home/menu$', restaurant.views.block_menu, name='menu'),
 	url(r'^orders$', restaurant.views.block_orders, name='orders'),
 	url(r'^services$', restaurant.views.block_services, name='services'),
 	url(r'^cart$', restaurant.views.block_cart, name='cart'),
+    url(r'^bill$', restaurant.views.bill_page, name='bill'),
 	url(r'^home/menu/items$', restaurant.views.block_items, name='items'),
     url(r'^home/menu/addtocart$', restaurant.views.add_to_cart, name='add_to_cart'),
     url(r'^removefromcart$', restaurant.views.remove_from_cart, name='remove_from_cart'),
@@ -37,6 +39,7 @@ urlpatterns = [
     url(r'^services/add_water$', restaurant.views.service_add_water, name='service_add_water'),
     url(r'^services/clean_table$', restaurant.views.service_clean_table, name='service_clean_table'),
     url(r'^services/baby_chair$', restaurant.views.service_baby_chair, name='service_baby_chair'),
+    url(r'^force_logout$', restaurant.views.force_logout, name='force_logout'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

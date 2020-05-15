@@ -107,6 +107,7 @@
     <Content Include="app\static\app\scripts\respond.js" />
     <Content Include="app\static\app\scripts\respond.min.js" />
     <Content Include="app\static\app\scripts\_references.js" />
+    <Content Include="restaurant\templates\restaurant\bill.html" />
     <Content Include="restaurant\templates\restaurant\block_cart.html" />
     <Content Include="restaurant\templates\restaurant\block_home.html" />
     <Content Include="restaurant\templates\restaurant\block_items.html" />
@@ -120,6 +121,8 @@
     <Content Include="restaurant\templates\restaurant\login.html" />
     <Content Include="restaurant\templates\restaurant\menu.html" />
     <Content Include="restaurant\templates\restaurant\orders.html" />
+    <Content Include="restaurant\templates\restaurant\services.html" />
+    <Content Include="restaurant\templates\restaurant\thankyou.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">
