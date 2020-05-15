@@ -173,25 +173,29 @@ def orders(request):
 @login_required(redirect_field_name='login')
 def block_services(request):
     """Renders the home page."""
-    #assert isinstance(request, HttpRequest)
+    total = 0
+    try:
+       bill = Order.objects.get(table_id = auth.get_user(request), billed = False)
+       hasOrder = True
+       state = Order_State.objects.filter(order = bill)
+       for state in state:
+           if state.state != 'cancelled':
+               total += state.food.price
+    except Order.DoesNotExist:
+        hasOrder = False
+    args = {'hasOrder': hasOrder, 'total': total}
     return render(
-        request,
-        'restaurant/block_services.html',
-        {
-            
-        }
+		request,
+		'restaurant/block_services.html',
+		args,
     )
 
 @login_required(redirect_field_name='login')
 def services(request):
-    """Renders the home page."""
-    #assert isinstance(request, HttpRequest)
+    
     return render(
-        request,
-        'restaurant/services.html',
-        {
-            'title':'Services',
-        }
+		request,
+		'restaurant/services.html',
     )
 
 @login_required(redirect_field_name='login')
@@ -325,8 +329,6 @@ def return_order(request):
     tryLoop = Order_State.objects.filter(order = bill)
     counter = 0;
     for stuff in tryLoop:
-        #print("targeted index: ", index, " | ", counter, " :current")
-        #print(stuff)
         if counter == index:
             if stuff.state == 'ordered' or stuff.state == 'making':
                 stuff.state = 'cancelled'
@@ -344,3 +346,18 @@ def get_order_state(request):
     for state in lists:
         result.append(state.state)
     return JsonResponse(result, safe=False)
+
+@login_required(redirect_field_name='login')
+def service_add_water(request):
+    print("Table", auth.get_user(request), "requested for adding water")
+    return HttpResponse('')
+
+@login_required(redirect_field_name='login')
+def service_clean_table(request):
+    print("Table", auth.get_user(request), "requested for table cleaning")
+    return HttpResponse('')
+
+@login_required(redirect_field_name='login')
+def service_baby_chair(request):
+    print("Table", auth.get_user(request), "requested for baby chair")
+    return HttpResponse('')
