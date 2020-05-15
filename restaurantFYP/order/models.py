@@ -51,6 +51,9 @@ class Cart(models.Model):
     def __str__(self):
         return str(self.cart_id)
 
+    def carted(self):
+        return ",".join([food.food_name for food in self.carted_food.all()])
+
 class Cart_State(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     food = models.ForeignKey(Food, on_delete=models.CASCADE, default='')
@@ -72,3 +75,5 @@ class Order_Admin(admin.ModelAdmin):
 
 class Cart_Admin(admin.ModelAdmin):
     inlines = (Cart_State_Inline,)
+    list_display = ('table_id', 'carted',)
+    ordering = ('table_id',)
