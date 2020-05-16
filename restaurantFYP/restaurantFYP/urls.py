@@ -13,10 +13,8 @@ import app.views
 
 import restaurant.views
 
-# Uncomment the next lines to enable the admin:
 from django.conf.urls import include
 from django.contrib import admin
-# admin.autodiscover()
 
 urlpatterns = [
     url(r'^$', restaurant.views.index, name='index'),
@@ -40,11 +38,5 @@ urlpatterns = [
     url(r'^services/clean_table$', restaurant.views.service_clean_table, name='service_clean_table'),
     url(r'^services/baby_chair$', restaurant.views.service_baby_chair, name='service_baby_chair'),
     url(r'^force_logout$', restaurant.views.force_logout, name='force_logout'),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
     url(r'^admin/', admin.site.urls, name='admin'),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-#haha

@@ -34,21 +34,12 @@ def login(request):
                 order = Order.objects.get(table_id = auth.get_user(request), billed = False)
             except Order.DoesNotExist:
                 order = Order.objects.create(table_id=auth.get_user(request))
+            print('=========================================')
+            print("Table ", username, " logged in successfully!")
+            print('=========================================')
             return redirect('index')
         else:
             return HttpResponse('<h1>Please scan QR code in order to use our website</h1>')
-
-    #elif request.method == 'POST': 
-    #    username = request.POST.get('username')
-    #    password = request.POST.get('password')
-    #
-    #    user = auth.authenticate(username=username, password=password)
-    #
-    #    if user is not None:
-    #        auth.login(request, user)
-    #        return redirect("home")
-    #    else:
-    #        return redirect('login')
     else:
         return HttpResponse('Please scan QR code in order to use our website')
 
@@ -59,11 +50,13 @@ def logout(request):
         return redirect('home')
     except Order.DoesNotExist:
         auth.logout(request)
+        print('==============================')
+        print("Table ", username, " logged out")
+        print('==============================')
         return HttpResponseRedirect('thankyou')
 
 @login_required(redirect_field_name='login')
 def block_home(request):
-    """Renders the home page."""
     hasOrder = False
     total = 0
     try:
@@ -84,8 +77,6 @@ def block_home(request):
 
 @login_required(redirect_field_name='login')
 def home(request):
-    """Renders the home page."""
-    #assert isinstance(request, HttpRequest)
     return render(
         request,
         'restaurant/home.html',
@@ -112,8 +103,6 @@ def billed(request):
 
 @login_required(redirect_field_name='login')
 def block_menu(request):
-    """Renders the home page."""
-    #assert isinstance(request, HttpRequest)
     category = Category.objects.exclude(category_name = 'Drinks')
     category = category.exclude(category_name =  'Snacks')
     drinks = Category.objects.filter(category_name = 'Drinks')
@@ -133,8 +122,6 @@ def block_menu(request):
 
 @login_required(redirect_field_name='login')
 def menu(request):
-    """Renders the home page."""
-    #assert isinstance(request, HttpRequest)
     return render(
         request,
         'restaurant/menu.html',
@@ -145,8 +132,6 @@ def menu(request):
 
 @login_required(redirect_field_name='login')
 def block_orders(request):
-    """Renders the home page."""
-    #assert isinstance(request, HttpRequest)
     bill = Order.objects.get(table_id = auth.get_user(request), billed = False)
     foodlist = []
     total = 0
@@ -164,8 +149,6 @@ def block_orders(request):
 
 @login_required(redirect_field_name='login')
 def orders(request):
-    """Renders the home page."""
-    #assert isinstance(request, HttpRequest)
     return render(
         request,
         'restaurant/orders.html',
@@ -176,7 +159,6 @@ def orders(request):
 
 @login_required(redirect_field_name='login')
 def block_services(request):
-    """Renders the home page."""
     total = 0
     try:
        bill = Order.objects.get(table_id = auth.get_user(request), billed = False)
@@ -196,7 +178,6 @@ def block_services(request):
 
 @login_required(redirect_field_name='login')
 def services(request):
-    
     return render(
 		request,
 		'restaurant/services.html',
@@ -217,8 +198,6 @@ def block_cart(request):
 
 @login_required(redirect_field_name='login')
 def cart(request):
-    """Renders the home page."""
-    #assert isinstance(request, HttpRequest)
     return render(
         request,
         'restaurant/cart.html',
@@ -226,8 +205,6 @@ def cart(request):
 
 @login_required(redirect_field_name='login')
 def block_items(request):
-    """Renders the home page."""
-    #assert isinstance(request, HttpRequest)
     category_id = request.POST.get('category_id')
     foods = Food.objects.filter(category_id = category_id, available = True)
     title = Category.objects.filter(category_id = category_id)
@@ -246,8 +223,6 @@ def block_items(request):
 
 @login_required(redirect_field_name='login')
 def items(request):
-	"""Renders the home page."""
-	#assert isinstance(request, HttpRequest)
 	return render(
         request,
         'restaurant/items.html',
@@ -292,6 +267,8 @@ def proceed_order(request):
     table_id = auth.get_user(request)
     cart = Cart.objects.filter(table_id = table_id)
     proceed_order = 'cart_empty'
+    print('==============================================')
+    print("Table", table_id, "ordered")
     for cart in cart:
         proceed_order = 'proceed_order'
         cart_food = cart.carted_food.all()
@@ -301,8 +278,9 @@ def proceed_order(request):
             except Order.DoesNotExist:
                 order = Order.objects.create(table_id=auth.get_user(request))
             order_state = Order_State.objects.create(order=order, food=food, state='ordered')
+            print(food.food_name)
+    print('==============================================')
     cart.delete()
-    #"""Renders the home page."""
     hasOrder = False
     total = 0
     try:
@@ -325,13 +303,17 @@ def proceed_order(request):
 def return_order(request):
     index = int(request.POST.get('index'))
     bill = Order.objects.get(table_id = auth.get_user(request), billed = False)
-    tryLoop = Order_State.objects.filter(order = bill)
+    orderedFood = Order_State.objects.filter(order = bill)
     counter = 0;
-    for stuff in tryLoop:
+    for food in orderedFood:
         if counter == index:
-            if stuff.state == 'ordered' or stuff.state == 'making':
-                stuff.state = 'cancelled'
-                stuff.save()
+            if food.state == 'ordered' or food.state == 'making':
+                food.state = 'cancelled'
+                food.save()
+                print('====================================')
+                print("Table", auth.get_user(request), "cancelled")
+                print(food.food.food_name)
+                print('====================================')
             break
         else:
             counter = counter + 1
@@ -383,7 +365,6 @@ def bill_page(request):
 
 @login_required(redirect_field_name='login')
 def force_logout(request):
-    """Renders the home page."""
     try:
        bill = Order.objects.get(table_id = auth.get_user(request), billed = False)
        hasOrder = 'true'
@@ -392,7 +373,6 @@ def force_logout(request):
     return HttpResponse(hasOrder)
 
 def thankyou(request):
-    """Renders the home page."""
     return render(
         request,
         'restaurant/thankyou.html',
