@@ -50,9 +50,6 @@ def logout(request):
         return redirect('home')
     except Order.DoesNotExist:
         auth.logout(request)
-        print('==============================')
-        print("Table ", username, " logged out")
-        print('==============================')
         return HttpResponseRedirect('thankyou')
 
 @login_required(redirect_field_name='login')
