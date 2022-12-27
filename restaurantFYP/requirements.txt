@@ -4,5 +4,5 @@ Django==2.2.12
 mysql-connector-python==8.0.19
 Pillow==7.1.1
 pytz==2019.3
-setuptools==40.8.0
+setuptools==65.5.1
 sqlparse==0.3.1
